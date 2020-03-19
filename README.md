@@ -19,9 +19,11 @@ Oh, don't let us forget the [Dicer][16].
 
 Older Launchpads might be documented [here][10].
 
+Did we mention [Python 3][18] yet?
+
 
 ---
-## STATUS 2017/07/xx:
+## STATUS 2019/09/xx:
 
 What's hot, what's not?  
 
@@ -42,12 +44,59 @@ What's hot, what's not?
     Dicer             - class "Dicer()"           LEDs and buttons
 
 
+### Python
+
+Now with Python 3 support \o/
+
+
 ### OS
 
-Now full functionality also on Windows 10 and macOS based systems.
+Now full functionality also on Windows 10 and macOS based systems.  
+Successfully tested with Ubuntu 18.04-LTS+. Requires compiling your own PyGame though (which is actually very easy; see below...).
+
 
 ---
 ## NEWS
+
+### CHANGES 2019/09/XX:
+
+    - added Mk1 LedCtrlRawRapidHome(), return to home position for LedCtrlRawRapid()
+    - updated build instructions
+
+### CHANGES 2018/10/XX:
+
+    - added PRO/Mk2 LedCtrlPulseByCode(), pulse LEDs by color code (RGB not supported)
+    - added PRO/Mk2 LedCtrlFlashByCode(), LED dual color flash by color codes (RGB not supported)
+    - added PRO/Mk2 LedCtrlBpm(), set pulsing/flashing rate
+    - updated PyGame compilation instructions
+    - added PRO/MK2 LedCtrlPulseXYByCode(), pulse LEDs by color code and X/Y position
+    - added PRO/MK2 LedCtrlFlashXYByCode(), flash LEDs by color code and X/Y position
+    - added PRO/MK2 flashing/pulsing example file
+    - changed version and tag to v0.8.1
+    - uploaded v0.8.1 to PyPI \o\\o//o/
+
+### CHANGES 2018/06/XX:
+
+    - added notes on how to compile your own PyGame (trouble solving)
+
+### CHANGES 2018/02/XX:
+
+    - added experimental (aka "seems quite good") support for Python 3
+    - added Pro example/test file "launchpad_pro.py"
+    - improving the doc, letter by letter
+    - added Mk2 example/test file "launchpad_mk2.py"
+    - removed the "Python 2 only" restriction from the setup file
+    - changed the imports in __init__.py to work with Python 3
+    - launchpad_py now ready for installations on Python 2 and 3
+    - updated "launchpad_pro.py" example/test; LedCtrlChar() positioning
+    - changed version and tag to v0.8.0
+    - uploaded v0.8.0 to PyPI \o\\o//o/
+    - added "launchpad_pro-fire.py" example; just a simple fire animation
+
+### CHANGES 2017/09/XX:
+
+    - added notes for Ubuntu 17.04 systems and /etc/alsa/alsa.conf issues
+    - added experimental 'Bad Pointer' fix upon exiting (needs more testing (w/ multiple LPads))
 
 ### CHANGES 2017/08/XX:
 
@@ -60,13 +109,11 @@ Now full functionality also on Windows 10 and macOS based systems.
     - added DCR "one page mode" support for buttons and LEDs
     - added DCR support in hello.py demo
 
-
 ### CHANGES 2017/07/29:
 
     - added a class for the Dicer
     - added DCR InputStateRaw() with coolest button mapping ever <3
     - added DCR LedSetLightShow()
-
 
 ### CHANGES 2017/06/XX:
 
@@ -172,18 +219,17 @@ Now full functionality also on Windows 10 and macOS based systems.
 ---
 ## Upcoming attractions, notes and thoughts
 
+  - "All": either remove or add the (non-) optional \<colorcode\> argument to all methods
+  - "All": RGB to color code approximation (for flash/pulse and color code methods)
   - "DCR": query mode
   - "CXL": x/y support (if it makes sense...)
+  - "All": LedCtrlChar() make y-offset work
   - "Pro": change ButtonStateXY() to return True/False + velocity, as in the LaunchKeyMini
   - "Pro": remove the "Mk1" compatibility from the "Pro" functions (blue LEDs and intensity values)
-  - "Pro": flash LEDs
-  - "Pro": pulse LEDs
   - "All": [r,g,b] lists for colors, instead of single args (might affect compatibility)
   - "Pro": implement native text scrolling
   - "Pro": support full analog reads (button already pressed, but intensity changes)
-  - "All": build in the new (*censored yet*) MIDI lib
   - "Doc": split installation and usage (and condense that a little)
-  - "Doc": add git clone instructions
   - "All": fix manual text scrolling
   - "All": replace MIDI cmd numbers with sth human readable (144->Note On; 176->Control Change, etc...)
   - "All": custom bitmaps and graphics
@@ -198,8 +244,9 @@ Now full functionality also on Windows 10 and macOS based systems.
 
 ### Install as Python package
 
-#### Via pip
+#### Via pip from PyPI
 
+Please notice that the PyPI version is not always up to date!  
 Simply execute
 
     pip install launchpad_py
@@ -209,8 +256,8 @@ or
     sudo pip install launchpad_py
 
 (in case you need superuser rights) to install it.  
-Notice that the required dependencies (see below) are not automatically resolved.  
-
+ Notice that the required dependencies (see below) are not automatically resolved.  
+ 
 You need to install `python-rtmidi` separately:
 
     pip install python-rtmidi
@@ -218,6 +265,19 @@ You need to install `python-rtmidi` separately:
 or
 
     sudo pip install python-rtmidi
+
+Also make sure that you're using the right "pip", matching your Python 2 or 3 preference.  
+Check with
+
+    pip --version
+
+Which should bring up somewthing like:
+
+    pip 9.0.1 from /usr/lib/python2.7/dist-packages (python 2.7)
+
+For explicitly installing this in an Python 3 environment, use
+
+    pip3 install launchpad_py
 
 
 #### From local file system
@@ -266,12 +326,43 @@ For compatibility with existing code, use
 
       import launchpad_py as launchpad
 
+
 #### Install directly from Github
 
 Instead of downloading the source distribution, you can directly install it from Github
 by executing
 
-      pip2 install git+https://github.com/FMMT666/launchpad.py
+      pip install git+https://github.com/FMMT666/launchpad.py
+
+
+#### Via your system's package manager, e.g. on Raspbian
+
+    ATTENTION Raspberry Pi Raspbian user. This is for you!
+
+Some Linux distributions come with their own PyGame package.  
+Check your manual :)
+
+With "apt", for example, you could either try
+
+    apt search pygame
+
+or
+
+    apt-cache search pygame
+    apt-cache search pygame | grep pygame
+
+Make sure to install the right PyGame version, matching your Python 2 or 3 prefewrence.  
+Sample output from a Raspbian Jesse:
+
+    python-pygame - SDL bindings for games development in Python (Python 2)
+    python3-pygame - SDL bindings for games development in Python (Python 3)
+
+An Ubuntu 17.0.1, which comes with Python 3 as default, outputs
+
+    python-pygame - SDL bindings for games development in Python
+    python-pygame-sdl2 - reimplementation of the Pygame API using SDL2
+
+but this is only a Python 2 installation of PyGame.
 
 
 ### Direct usage
@@ -343,24 +434,39 @@ The licensor cannot revoke these freedoms as long as you follow the license term
 ---
 ## Requirements
 
-  - [Python][2] 2
-  - [Pygame][3] v1.9.1, (v1.9.2), v1.9.3
+  - [Python][2] 2, 3
+  - [Pygame][3] v1.9.1, (v1.9.2), v1.9.3, v1.9.4-XX
 
 Some Pygame versions do not work on some OSes (e.g. v1.9.2 might cause trouble
-with Windows 7/10). I cannot tell you any more than just "try them!".  
+with Windows 7/10). I cannot tell you any more than just "try!".  
 The latest fixes (4/2017) were tested with v1.9.3 (via pip from Python 2.7.13)
 and Windows 10 (x64). That seems to work fine again...
   
-It does not work with Python 3.  
+As of 2/2018, launchpad.py comes with Python 3 support.  
+Tested, so far:  
 
-Launchpad.py was tested under
+  - Windows 10, Python 3.6.4, PyGame 1.9.3 (via pip), MK2 Pad
+  - macOS Sierra, Python 3.6 (Macports), PyGame 1.9.3 (via pip), Pro Pad
+  - Raspbian Jessy, RPi3, Python 3.4.2, PyGame 1.9.2a0 (via apt), Mini Pad
+
+Python 3 might not (yet and out-of-the-box) work for:  
+
+  - stock Ubuntu 16.04.3-LTS (requires building PyGame from sources)
+  - stock Ubuntu 17.04       (same)
+  - stock Ubuntu 17.10       (same)
+  - stock Ubuntu 18.04       (workaround available)
+
+See below for instructions on how to compile PyGame on your own...
+
+
+Previously, launchpad.py was tested under
 
   - Linux, 32 bit, 64 bit
   - Windows XP, 32 bit
   - Windows 7, 32 bit, 64 bit
   - Windows 10, 64 bit
   - macOS Sierra
-  - [Raspberry-Pi 1/2][4] (Look out for my [Minecraft][5] controller here: [www.askrprojects.net][6])
+  - [Raspberry-Pi 1/2/3][4]
   - Beagle Bone (Black)
   - Banana Pi (Pro/M2/R1)
   - pcDuino V3
@@ -386,7 +492,128 @@ Supported completely different stuff:
 Notice that Novation now (1/2016) sells an RGB Launchpad under the same
 name it once shipped the first red/green LED with!
 
+---
+## Compiling your own PyGame
 
+ If you have problems with errors like "alsa.conf" or the ListAll() method
+ not recognizing any attached Launchpads on newer systems, especially Ubuntu 17/18,
+ you might consider compiling your own PyGame version.
+
+ This explanation is for Ubuntu 18.04-LTS and Python 3, but it should work [tm] for most other systems too.
+
+ Additional package requirements, install them with
+
+    sudo apt-get install <package name>
+
+ I recommend installing these one after another (for easy "debugging")
+
+    git
+    automake
+    cmake
+    libsdl1.2-dev        <--- for older PyGame versions
+    libsdl2-dev          <--- for newer PyGame versions (ca. mid 2019+)
+    libfreetype6-dev
+    libportmidi-dev
+    python3-setuptools   <--- for Python 3
+    python3-dev          <--- same
+    ...
+
+### Compile via "setup.py"
+
+ Find the complete compilation instructions [here][19].
+
+ Download the PyGame source code.  
+ Notice that this will create a sub-folder named "pygame":
+
+    git clone https://github.com/pygame/pygame
+
+ Enter that directory and type
+
+     python3 setup.py build
+
+ which results in something like:
+
+    ...
+    No package 'freetype2' found
+    WARNING: "pkg-config freetype2" failed!
+    SDL     : found 1.2.15
+    FONT    : not found
+    IMAGE   : not found
+    MIXER   : not found
+    PNG     : found
+    JPEG    : not found
+    SCRAP   : found
+    PORTMIDI: found
+    PORTTIME: found
+    FREETYPE: not found
+    
+    Warning, some of the pygame dependencies were not found. Pygame can still
+    compile and install, but games that depend on those missing dependencies
+    will not run. Would you like to continue the configuration? [Y/n]
+
+ If you need a fully working PyGame, with all features, I leave it up to you,
+ to resolve the remaining "not found" issues, but they're not required by Launchpad.py
+
+ Make sure PORTMIDI and PORTTIME are marked with "found", then continue the build process.
+ After a hopfully error-free build, execute (Ubuntu example for superuser access)
+
+    sudo python3 setup.py install
+
+  After a short time, you now should have PyGame in the default path
+
+    /usr/local/lib/python3.6/dist-packages/
+
+ ...
+
+
+### Compile via "configure" (old)
+
+ Newer Python variants come with a fully functional setup.py (see above).  
+ I just leave the old compiling instructions here...
+
+ Download the PyGame source code.  
+ Notice that this will create a sub-folder named "pygame":
+
+    git clone https://github.com/pygame/pygame
+
+ Enter that directory and type
+
+     ./configure
+
+ which results in something like:
+
+    ...
+    No package 'freetype2' found
+    WARNING: "pkg-config freetype2" failed!
+    SDL     : found 1.2.15
+    FONT    : not found
+    IMAGE   : not found
+    MIXER   : not found
+    PNG     : found
+    JPEG    : not found
+    SCRAP   : found
+    PORTMIDI: found
+    PORTTIME: found
+    FREETYPE: not found
+
+ If you need a fully working PyGame, with all features, I leave it up to you,
+ to resolve the remaining "not found" issues, but they're not required by Launchpad.py
+
+ Next, type
+
+    make
+
+ to create the build files, followed by a
+
+    sudo python3 setup.py install
+
+ After a short time, you now should have PyGame in the default path
+
+    /usr/local/lib/python3.6/dist-packages/
+
+ ...
+
+ 
 ---
 ## Random Notes
 
@@ -443,6 +670,10 @@ Notice that some of the button and key numbers collide and cannot be differed.
 
 ### For Dicer users
 
+      USE CLASS "Dicer":
+      
+        lp = launchpad.Dicer()
+
 The Dicer uses "page" mode by default. The three small buttons "cue", "loop" and "auto loop"
 select six different pages (per Dicer module) and each of those can be handled independently.
 
@@ -452,6 +683,58 @@ pushing a number button.
 
 So, if the "cue" page is active and you try to activate an LED in the "loop" page, that
 will not be visible until you activate that page.
+
+
+### alsa.conf issues
+
+Several users reported errors because of a missing alsa.conf file, e.g.:
+
+    ALSA lib conf.c:3009:(snd_config_update_r) Cannot access file /etc/alsa/alsa.conf
+    ALSA lib seq.c:935:(snd_seq_open_noupdate) Unknown SEQ default
+
+If /etc/alsa/alsa.conf does not exist, you can create a symbolic link to where it resides on
+your system. Find it with:
+
+    find /etc /usr -name "alsa.conf"
+
+If that command can _not_ find "alsa.conf" (a common place is /usr/share/alsa/alsa.conf), you
+probably don't have Alsa installed at all.
+
+In all other cases, you can create a symbolic link from /etc/alsa/alsa.conf to the real, existing file
+(assuming /usr/share/alsa/alsa.conf here).  
+Warning: Double check whether /etc/alsa/alsa.conf _really_ does not exist first!
+
+    sudo mkdir /etc/alsa
+    sudo ln -s /usr/share/alsa/alsa.conf /etc/alsa/alsa.conf
+
+After that, you still might experience that Launchpad.py cannot find any MIDI devices.  
+The output from "lp.ListAll()" does not return anything and executing the "hello.py" example just shows
+something like:
+
+    Exception AttributeError: "'NoneType' object has no attribute 'quit'" in <bound method __Midi.__del__
+    ... of <launchpad_py.launchpad.__Midi instance at 0x7f0860cb3128>> ignored
+
+In this case, the default sequencer entries might be missing in your alsa.conf.  
+You might wish to add this to your alsa.conf:
+
+    #
+    #  Sequencer interface
+    #
+    
+    seq.default {
+      type hw
+      hint.description "Added by experts. Source: Internet \o/"
+    }
+    
+    seq.hw {
+    type hw
+    }
+
+Thanks to [MartinPaulEve][17] for pointing that out.  
+Please notice that this "fix" won't work on all systems. While it does, for example,
+work with Ubuntu 17.04, the same error usually just indicates that your system was not
+built with a PyGame compatible ALSA (PortMidi) version.  
+There is no easy fix for this (unless you wish to spend a lot of time completely recompiling your system...)
 
 
 ### For Mac users
@@ -489,12 +772,35 @@ Get it from [here][14] (Novation USB Driver-2.7.dmg).
 
 As it seems, all newer Launchpads work right out of the box, no driver required.
 
+### For Raspberry Pi users
+
+Please notice that some the newer RGB LED Launchpads consume more current than a
+Raspberry Pi can deliver. If you turn on a lot of LEDs, the Launchpad will just reset and show the fireworks demo.  
+At least for the Launchpad Pro, you could use an external power supply adapter. For the Mk2, you
+would need a an "USB-Y" cable, with the "power plug" connected to an external power supply (or other PC).
+
+As written somewhere above, at least for Raspbian (Jesse), you should install Raspbian's PyGame version
+via the package manager or apt. The PyPI version (installation via "pip") will not work due to some missing SDL components.  
+
+Btw, you can check your Raspbian version with the console command
+
+    cat /etc/os-release
+
+Which outputs something comparable to
+
+    PRETTY_NAME="Raspbian GNU/Linux 8 (jessie)"
+    NAME="Raspbian GNU/Linux"
+    VERSION_ID="8"
+    VERSION="8 (jessie)"
+    ...
+
+
 ### For Windows users
 
       MIDI implementation in PyGame 1.9.2+ is broken and running this might
       bring up an 'insufficient memory' error ( pygame.midi.Input() ).
 
-      SOLUTION: use v1.9.1 (or try v1.9.3)
+      SOLUTION: use v1.9.1 or try v1.9.3
 
 ### For Linux and especially Raspberry-Pi users:
 
@@ -521,13 +827,32 @@ did nothing...
 The first time I discovered that, I blamed it on an attached FTDI UART chip, but as it
 turned out, that was not the reason it didn't work.
 
-It "simply" was a power issue.
+It simply was a power issue.
 
 So, if your Launchpad Pro shows that firework demo, check your USB cable!  
 Seriously. That thing draws a lot of current and most USB cables simply
-do not conform to the USB standard.
+do not conform to the USB standard (or your USB port isn't, e.g. Raspberry Pi).
 
-Mine "looked quite good" from the outside.  
+On Linux, you can check that via the console command "dmesg".  
+If the output contains hundreds of "urb status -32" errors, followed by
+
+    ...
+    [ 1414.983069] usb 1-1.5: urb status -32
+    [ 1414.983232] usb 1-1.5: urb status -32
+    [ 1414.983345] usb 1-1.5: urb status -32
+    [ 1414.983456] usb 1-1.5: urb status -32
+    [ 1414.983495] usb 1-1.5: USB disconnect, device number 8
+    [ 1414.983568] usb 1-1.5: urb status -32
+    [ 1414.983692] usb 1-1.5: urb status -32
+    [ 1415.288539] usb 1-1.5: new full-speed USB device number 9 using dwc_otg
+    [ 1415.445968] usb 1-1.5: New USB device found, idVendor=1235, idProduct=0051
+    [ 1415.445984] usb 1-1.5: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+    [ 1415.445992] usb 1-1.5: Product: Launchpad Pro
+    [ 1415.446000] usb 1-1.5: Manufacturer: Focusrite A.E. Ltd
+    [ 1415.446009] usb 1-1.5: SerialNumber: Launchpad Pro
+    ...
+
+My USB cable "looked quite good" from the outside.  
 With its ~5.5mm diameter, I assumed it had AWG 22 (~60mOhm/m) or better, but it in fact
 has ~drumroll~ AWG 28 (~240mOhm/m) and two thick plastic strings to fill the gaps.
 
@@ -565,6 +890,7 @@ Btw, the fireworks demo will play whenever the Launchpad cannot be enumerated (c
     LedCtrlRaw( number, red, green )
     LedCtrlXY( x, y, red, green )
     LedCtrlRawRapid( allLeds )
+    LedCtrlRawRapidHome()
     LedCtrlAutomap( number, red, green )
     LedAllOn()
     LedCtrlChar( char, red, green, offsx = 0, offsy = 0 )
@@ -585,8 +911,13 @@ Btw, the fireworks demo will play whenever the Launchpad cannot be enumerated (c
 
     LedSetMode( mode )
     LedGetColorByName( name )
-    LedCtrlRaw( number, red, gree, [blue] )
+    LedCtrlRaw( number, red, green, [blue] )
     LedCtrlRawByCode( number, [colorcode] )
+    LedCtrlPulseByCode( number, colorcode )
+    LedCtrlPulseXYByCode( x, y, colorcode )
+    LedCtrlFlashByCode( number, colorcode )
+    LedCtrlFlashXYByCode( x, y, colorcode )
+    LedCtrlBpm( bpm )
     LedCtrlXY( x, y, red, green, [blue] )
     LedCtrlXYByCode( x, y, colorcode )
     LedCtrlXYByRGB( x, y, colorlist )
@@ -607,6 +938,8 @@ Btw, the fireworks demo will play whenever the Launchpad cannot be enumerated (c
 All RGB Launchpads have a 128 color palette built-in.  
 Controlling LEDs with colors from the palette is about three times faster than
 using the, indeed much more comfortable, RGB notation.
+
+Functions requiring a color code have a "...ByCode" naming style.
 
 ![RGB color palette](/images/lppro_colorcodes.png)
 
@@ -895,8 +1228,29 @@ using the, indeed much more comfortable, RGB notation.
     If an odd number of values is sent, the next, following LED is
     turned off!
 
+    To return to the start position (LED1), issue an
+    LedCtrlRawRapidHome() command. Thanks to "afandian" (issue #38).
+
       PARAMS: <allLeds> A list of up to 80 Launchpad color codes.
       RETURN:
+
+
+### LedCtrlRawRapidHome()
+
+    Resets the current LedCtrlRawRapid() position to LED1, aka. "homing".
+
+      PARAMS:
+      RETURN:
+
+      EXAMPLE:
+                LEDs = [ 0x03, 0x30, 0x33 ]  # LEDs 1..3: RGY
+                lp.LedCtrlRawRapid( LEDs )
+                time.wait(1000)
+
+                lp.LedCtrlRawRapidHome()     # home position
+                
+                rgy = [ 0x30, 0x03, 0x33 ]   # LEDs 1..3; GRY
+                lp.LedCtrlRawRapid( rgy )
 
 
 ### LedCtrlAutomap( number, red, green )
@@ -1060,13 +1414,130 @@ using the, indeed much more comfortable, RGB notation.
 
 ### LedCtrlRawByCode( number, [colorcode] )
 
-    Controls an LED via its number and colorcode.
+    Controls an LED via its number and color code.
     If <colorcode> is omitted, 'white' is used.
     This is about three times faster than the comfortable RGB method LedCtrlRaw().
 
       PARAMS: <number>     number of the LED to control
-              <colorcode>  OPTIONAL, a number from 0..127
+              <colorcode>  a number from 0..127 (see image; white if omitted)
       RETURN:
+
+
+### LedCtrlPulseByCode( number, colorcode )
+
+    Controls an LED via its number and color code, as "LedCtrlRawByCode()" does,
+    but pulsing the LED instead of just turning it on or off.
+    If <colorcode> is omitted, 'white' is used.
+    Pulsing can be turned off by simply sending another on/off command.
+    The pulsing rate can be (roughly) set by LedCtrlBpm()
+    
+    Notice that there is no RGB control variant of this method (not supported by Launchpad).
+
+      PARAMS: <number>     number of the LED to control
+              <colorcode>  a number from 0..127 (see image)
+      RETURN:
+
+
+### LedCtrlPulseXYByCode( x, y, colorcode, [mode] )
+
+    Pulses an LED via its x/y coordinates and color codes.
+    An additional <mode> parameter determines the origin of the x-axis.
+    
+    For "Pro" only:
+      By default, if <mode> is omitted, the origin of the x axis is the left side
+      of the 8x8 matrix, like in the "Mk1" mode (those devices had no round buttons
+      on the left).
+      If <mode> is set to "pro" (string), x=0 will light up the round buttons on the
+      left side. Please also see the table for X/Y modes somewhere at the end of this
+      document.
+
+      PARAMS: <x>          x coordinate of the LED to control
+              <y>          y coordinate of the LED to control
+              <colorcode>  a number from 0..127 (see image)
+              <mode>       OPTIONAL: "pro" selects new x/y origin >>> PRO ONLY <<<
+      RETURN:
+
+
+### LedCtrlFlashByCode( number, colorcode )
+
+    Flashes an LED between two colors or on/off.
+    The first color can be set by any "LedCtrl...()" command, the second color and the
+    activation of the flashing is then done by this method.
+    Flashing can be turned off by simply sending another on/off/color command.
+    The flashing rate can be (roughly) set by LedCtrlBpm()
+    
+    Notice that there is no RGB control variant of this method (not supported by Launchpad).
+
+      PARAMS: <number>     number of the LED to control
+              <colorcode>  a number from 0..127 (see image)
+      RETURN:
+
+      EXAMPLES:
+              LP.LedCtrlRawByCode( 81, 16 )      # set top left LED (#81) to green ("16") (Mk2)
+              LP.LedCtrlFlashByCode( 81, 6 )     # now set 2nd color to red ("6") and flash LED #81
+
+              LP.LedCtrlXY( 0, 1, 63, 63, 63 )   # set top left LED to white (Mk2)
+              LP.LedCtrlFlashByCode( 81, 6 )     # now set 2nd color to red ("6") and flash LED #81
+
+
+### LedCtrlFlashXYByCode( x, y, colorcode, [mode] )
+
+    Flashes an LED via its x/y coordinates and color codes.
+    An additional <mode> parameter determines the origin of the x-axis.
+    
+    For "Pro" only:
+      By default, if <mode> is omitted, the origin of the x axis is the left side
+      of the 8x8 matrix, like in the "Mk1" mode (those devices had no round buttons
+      on the left).
+      If <mode> is set to "pro" (string), x=0 will light up the round buttons on the
+      left side. Please also see the table for X/Y modes somewhere at the end of this
+      document.
+
+      PARAMS: <x>          x coordinate of the LED to control
+              <y>          y coordinate of the LED to control
+              <colorcode>  a number from 0..127 (see image)
+              <mode>       OPTIONAL: "pro" selects new x/y origin >>> PRO ONLY <<<
+      RETURN:
+
+
+### LedCtrlBpm( bpm )
+
+    EXPERIMENTAL/PRELIMINARY
+
+    Sets the LED's pulsing or flashing frequency in beats per minute (bpm).
+    By default, the Launchpads are set to 120 bpm.
+    
+    Notice that this comes with several restrictions (yet):
+
+     - This function blocks for 67.5 / bpm seconds, e.g.:
+          40 bpm - 1688 ms
+         100 bpm -  675 ms
+         240 bpm -  281 ms
+        so it should only be called if absolutely necessary, preferably right in the beginning.
+
+      - Due to the shortest time step of 1ms and the way the Launchpads handle the timing settings,
+        the bpm values are restricted to:
+        
+          10 ms - 250 bpm     23 ms - 108 bpm     36 ms -  69 bpm     49 ms -  51 bpm
+          11 ms - 227 bpm     24 ms - 104 bpm     37 ms -  67 bpm     50 ms -  50 bpm
+          12 ms - 208 bpm     25 ms - 100 bpm     38 ms -  65 bpm     51 ms -  49 bpm
+          13 ms - 192 bpm     26 ms -  96 bpm     39 ms -  64 bpm     52 ms -  48 bpm
+          14 ms - 178 bpm     27 ms -  92 bpm     40 ms -  62 bpm     53 ms -  47 bpm
+          15 ms - 166 bpm     28 ms -  89 bpm     41 ms -  60 bpm     54 ms -  46 bpm
+          16 ms - 156 bpm     29 ms -  86 bpm     42 ms -  59 bpm     55 ms -  45 bpm
+          17 ms - 147 bpm     30 ms -  83 bpm     43 ms -  58 bpm     56 ms -  44 bpm
+          18 ms - 138 bpm     31 ms -  80 bpm     44 ms -  56 bpm     57 ms -  43 bpm
+          19 ms - 131 bpm     32 ms -  78 bpm     45 ms -  55 bpm     58 ms -  43 bpm
+          20 ms - 125 bpm     33 ms -  75 bpm     46 ms -  54 bpm     59 ms -  42 bpm
+          21 ms - 119 bpm     34 ms -  73 bpm     47 ms -  53 bpm     60 ms -  41 bpm
+          22 ms - 113 bpm     35 ms -  71 bpm     48 ms -  52 bpm     61 ms -  40 bpm
+
+      PARAMS: <bpm>     beats per minute, 40..240
+      RETURN:
+      
+      EXAMPLES:
+              LP.LedCtrlBpm( 100 )      # set LED flashing/pulsing to ~100 beats per minute
+
 
 
 ### LedCtrlXY( x, y, red, green, [blue], [mode] )
@@ -1937,3 +2408,7 @@ FMMT666(ASkr)
 [14]: https://novationmusic.de/support/product-downloads?product=Launchpad+MK1
 [15]: https://twitter.com/FMMT666/status/871094540140240896
 [16]: https://twitter.com/FMMT666/status/891077439023087618
+[17]: https://github.com/FMMT666/launchpad.py/issues/24
+[18]: https://twitter.com/FMMT666/status/967551405644025857
+[19]: https://www.pygame.org/wiki/Compilation
+[20]: https://github.com/FMMT666/launchpad.py/issues/38#issuecomment-519698406

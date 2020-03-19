@@ -1,10 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 #
 # A Novation Launchpad control suite for Python.
 #
 # https://github.com/FMMT666/launchpad.py
 # 
-# FMMT666(ASkr) 01/2013..08/2017
+# FMMT666(ASkr) 01/2013..09/2019
 # www.askrprojects.net
 #
 #
@@ -21,13 +21,18 @@ import string
 import random
 import sys
 import time
+import array
 
 import rtmidi
 
+
 try:
-	from charset import *
+	from launchpad_py.charset import *
 except ImportError:
-	sys.exit("error loading Launchpad charset")
+	try:
+		from charset import *
+	except ImportError:
+		sys.exit("error loading Launchpad charset")
 
 
 
@@ -38,7 +43,7 @@ except ImportError:
 class Midi:
 
 	# instance created 
-	instanceMidi = None;
+	instanceMidi = None
 
 	#---------------------------------------------------------------------------------------
 	#-- init
@@ -85,13 +90,14 @@ class Midi:
 	def CloseOutput( self ):
 		if self.devOut is not None:
 			self.devOut.close_port()
+			del self.devOut
 			self.devOut = None
 
 
 	#-------------------------------------------------------------------------------------
 	#--
 	#-------------------------------------------------------------------------------------
-	def OpenInput( self, midi_id ):
+	def OpenInput( self, midi_id, bufferSize = None ):
 		if self.devIn is None:
 			try:
 				self.devIn = rtmidi.MidiIn()
@@ -108,8 +114,10 @@ class Midi:
 	def CloseInput( self ):
 		if self.devIn is not None:
 			self.devIn.close_port()
+			del self.devIn
 			self.devIn = None
-		
+
+
 	#-------------------------------------------------------------------------------------
 	#--
 	#-------------------------------------------------------------------------------------
@@ -119,7 +127,6 @@ class Midi:
 			return msg
 		else:
 			return None
-		
 
 
 	#-------------------------------------------------------------------------------------
@@ -128,7 +135,7 @@ class Midi:
 	def RawWrite( self, stat, dat1, dat2 ):
 		self.devOut.send_message( [stat, dat1, dat2] )
 
-		
+
 	#-------------------------------------------------------------------------------------
 	#-- Sends a list of messages. If timestamp is 0, it is ignored.
 	#-- Amount of <dat> bytes is arbitrary.
@@ -138,7 +145,7 @@ class Midi:
 	def RawWriteMulti( self, lstMessages ):
 		self.devOut.send_message( lstMessages )
 
-	
+
 	#-------------------------------------------------------------------------------------
 	#-- Sends a single system-exclusive message, given by list <lstMessage>
 	#-- The start (0xF0) and end bytes (0xF7) are added automatically.
@@ -221,7 +228,7 @@ class LaunchpadBase( object ):
 
 
 	def __delete__( self ):
-		self.Close();
+		self.Close()
 		
 
 	#-------------------------------------------------------------------------------------
@@ -456,6 +463,13 @@ class Launchpad( LaunchpadBase ):
 
 
 	#-------------------------------------------------------------------------------------
+	#-- "Homes" the next LedCtrlRawRapid() call, so it will start with the first LED again.
+	#-------------------------------------------------------------------------------------
+	def LedCtrlRawRapidHome( self ):
+		self.midi.RawWrite( 176, 1, 0 )
+
+
+	#-------------------------------------------------------------------------------------
 	#-- Controls an automap LED <number>; with <green/red> brightness: 0..3
 	#-- NOTE: In here, number is 0..7 (left..right)
 	#-------------------------------------------------------------------------------------
@@ -521,9 +535,9 @@ class Launchpad( LaunchpadBase ):
 			string += " "
 			for n in range( (len(string) + 1) * 8 ):
 				if n <= len(string)*8:
-					self.LedCtrlChar( string[ limit( (  n   /16)*2     , 0, len(string)-1 ) ], red, green, 8- n   %16 )
+					self.LedCtrlChar( string[ limit( (  n   //16)*2     , 0, len(string)-1 ) ], red, green, 8- n   %16 )
 				if n > 7:
-					self.LedCtrlChar( string[ limit( (((n-8)/16)*2) + 1, 0, len(string)-1 ) ], red, green, 8-(n-8)%16 )
+					self.LedCtrlChar( string[ limit( (((n-8)//16)*2) + 1, 0, len(string)-1 ) ], red, green, 8-(n-8)%16 )
 				time.sleep(0.001 * waitms)
 		elif direction == self.SCROLL_RIGHT:
 			# TODO: Just a quick hack (screen is erased before scrolling begins).
@@ -533,15 +547,15 @@ class Launchpad( LaunchpadBase ):
 #			for n in range( (len(string) + 1) * 8 - 1, 0, -1 ):
 			for n in range( (len(string) + 1) * 8 - 7, 0, -1 ):
 				if n <= len(string)*8:
-					self.LedCtrlChar( string[ limit( (  n   /16)*2     , 0, len(string)-1 ) ], red, green, 8- n   %16 )
+					self.LedCtrlChar( string[ limit( (  n   //16)*2     , 0, len(string)-1 ) ], red, green, 8- n   %16 )
 				if n > 7:
-					self.LedCtrlChar( string[ limit( (((n-8)/16)*2) + 1, 0, len(string)-1 ) ], red, green, 8-(n-8)%16 )
+					self.LedCtrlChar( string[ limit( (((n-8)//16)*2) + 1, 0, len(string)-1 ) ], red, green, 8-(n-8)%16 )
 				time.sleep(0.001 * waitms)
 		else:
 			for i in string:
 				for n in range(4):  # pseudo repetitions to compensate the timing a bit
 					self.LedCtrlChar(i, red, green)
-					time.sleep(0.001 * waitms);
+					time.sleep(0.001 * waitms)
 
 					
 	#-------------------------------------------------------------------------------------
@@ -753,6 +767,31 @@ class LaunchpadPro( LaunchpadBase ):
 
 
 	#-------------------------------------------------------------------------------------
+	#-- Sets BPM for pulsing or flashing LEDs
+	#-- EXPERIMENTAL FAKE SHOW
+	#-- The Launchpad Pro (and Mk2) derive the LED's pulsing or flashing frequency from
+	#-- the repetive occurrence of MIDI beat clock messages (msg 248), 24 per beat.
+	#-- No timers/events here yet, so we fake it by sending the minimal amount of
+	#-- messages (25 for Pro, 26 for Mk2 (not kidding) => 28, probably safe value) once.
+	#-- The Pro and the Mk2 support 40..240 BPM, so the maximum time we block everything
+	#-- is, for 40 BPM:
+	#--   [ 1 / ( 40 BPM * 24 / 60s ) ] * 28 = 1.75s    ; (acrually one less, 28-1)
+	#-- Due to the 1ms restriction, the BPMs get quite coarse towards the faster end:
+	#--   250, 227, 208, 192, 178, 166, 156, 147, 138, 131...
+	#-------------------------------------------------------------------------------------
+	def LedCtrlBpm( self, bpm ):
+		bpm = min( int( bpm ), 240 )  # limit to upper 240
+		bpm = max( bpm, 40 )          # limit to lower 40
+
+		# basically int( 1000 / ( bpm * 24 / 60.0 ) ):
+		td = int( 2500 / bpm )
+
+		for i in range( 28 ):
+			self.midi.RawWrite( 248, 0, 0 )
+			time.wait( td )
+
+
+	#-------------------------------------------------------------------------------------
 	#-- Returns an RGB colorcode by trying to find a color of a name given by string <name>.
 	#-- If nothing was found, Code 'black' (off) is returned.
 	#-------------------------------------------------------------------------------------
@@ -814,6 +853,42 @@ class LaunchpadPro( LaunchpadBase ):
 
 
 	#-------------------------------------------------------------------------------------
+	#-- Same as LedCtrlRawByCode, but with a pulsing LED.
+	#-- Pulsing can be stoppped by another Note-On/Off or SysEx message.
+	#-------------------------------------------------------------------------------------
+	def LedCtrlPulseByCode( self, number, colorcode = None ):
+
+		if number < 0 or number > 99:
+			return
+
+		# TODO: limit/check colorcode
+		if colorcode is None:
+			colorcode = LaunchpadPro.COLORS['white']
+
+		# for Mk2: [ 0, 32, 41, 2, *24*, 40, *0*, number, colorcode ] (also an error in the docs)
+		self.midi.RawWriteSysEx( [ 0, 32, 41, 2, 16, 40, number, colorcode ] )
+
+
+	#-------------------------------------------------------------------------------------
+	#-- Same as LedCtrlPulseByCode, but with a dual color flashing LED.
+	#-- The first color is the one that is already enabled, the second one is the
+	#-- <colorcode> argument in this method.
+	#-- Flashing can be stoppped by another Note-On/Off or SysEx message.
+	#-------------------------------------------------------------------------------------
+	def LedCtrlFlashByCode( self, number, colorcode = None ):
+
+		if number < 0 or number > 99:
+			return
+
+		# TODO: limit/check colorcode
+		if colorcode is None:
+			colorcode = LaunchpadPro.COLORS['white']
+
+		# for Mk2: [ 0, 32, 41, 2, *24*, *35*, *0*, number, colorcode ] (also an error in the docs)
+		self.midi.RawWriteSysEx( [ 0, 32, 41, 2, 16, 35, number, colorcode ] )
+
+
+	#-------------------------------------------------------------------------------------
 	#-- Controls a grid LED by its coordinates <x>, <y> and <reg>, <green> and <blue>
 	#-- intensity values. By default, the old and compatible "Classic" mode is used
 	#-- (8x8 matrix left has x=0). If <mode> is set to "pro", x=0 will light up the round
@@ -856,6 +931,48 @@ class LaunchpadPro( LaunchpadBase ):
 		led = 90-(10*y) + x
 		
 		self.LedCtrlRawByCode( led, colorcode )
+
+
+	#-------------------------------------------------------------------------------------
+	#-- Pulses a grid LED by its coordinates <x>, <y> and its <colorcode>.
+	#-- By default, the old and compatible "Classic" mode is used (8x8 matrix left has x=0).
+	#-- If <mode> is set to "pro", x=0 will light up the round buttons on the left of the
+	#-- Launchpad Pro (not available on other models).
+	#-------------------------------------------------------------------------------------
+	def LedCtrlPulseXYByCode( self, x, y, colorcode, mode = "classic" ):
+
+		if x < 0 or x > 9 or y < 0 or y > 9:
+			return
+		
+		# rotate matrix to the right, column 9 overflows from right to left, same row
+		if mode != "pro":
+			x = ( x + 1 ) % 10
+			
+		# swap y
+		led = 90-(10*y) + x
+		
+		self.LedCtrlPulseByCode( led, colorcode )
+
+
+	#-------------------------------------------------------------------------------------
+	#-- Flashes a grid LED by its coordinates <x>, <y> and its <colorcode>.
+	#-- By default, the old and compatible "Classic" mode is used (8x8 matrix left has x=0).
+	#-- If <mode> is set to "pro", x=0 will light up the round buttons on the left of the
+	#-- Launchpad Pro (not available on other models).
+	#-------------------------------------------------------------------------------------
+	def LedCtrlFlashXYByCode( self, x, y, colorcode, mode = "classic" ):
+
+		if x < 0 or x > 9 or y < 0 or y > 9:
+			return
+		
+		# rotate matrix to the right, column 9 overflows from right to left, same row
+		if mode != "pro":
+			x = ( x + 1 ) % 10
+			
+		# swap y
+		led = 90-(10*y) + x
+		
+		self.LedCtrlFlashByCode( led, colorcode )
 
 
 	#-------------------------------------------------------------------------------------
@@ -933,9 +1050,9 @@ class LaunchpadPro( LaunchpadBase ):
 			string += " " # just to avoid artifacts on full width characters
 			for n in range( (len(string) + 1) * 8 ):
 				if n <= len(string)*8:
-					self.LedCtrlChar( string[ limit( (  n   /16)*2     , 0, len(string)-1 ) ], red, green, blue, 8- n   %16 )
+					self.LedCtrlChar( string[ limit( (  n   //16)*2     , 0, len(string)-1 ) ], red, green, blue, 8- n   %16 )
 				if n > 7:
-					self.LedCtrlChar( string[ limit( (((n-8)/16)*2) + 1, 0, len(string)-1 ) ], red, green, blue, 8-(n-8)%16 )
+					self.LedCtrlChar( string[ limit( (((n-8)//16)*2) + 1, 0, len(string)-1 ) ], red, green, blue, 8-(n-8)%16 )
 				time.sleep(0.001 * waitms)
 		elif direction == self.SCROLL_RIGHT:
 			# TODO: Just a quick hack (screen is erased before scrolling begins).
@@ -945,15 +1062,15 @@ class LaunchpadPro( LaunchpadBase ):
 #			for n in range( (len(string) + 1) * 8 - 1, 0, -1 ):
 			for n in range( (len(string) + 1) * 8 - 7, 0, -1 ):
 				if n <= len(string)*8:
-					self.LedCtrlChar( string[ limit( (  n   /16)*2     , 0, len(string)-1 ) ], red, green, blue, 8- n   %16 )
+					self.LedCtrlChar( string[ limit( (  n   //16)*2     , 0, len(string)-1 ) ], red, green, blue, 8- n   %16 )
 				if n > 7:
-					self.LedCtrlChar( string[ limit( (((n-8)/16)*2) + 1, 0, len(string)-1 ) ], red, green, blue, 8-(n-8)%16 )
+					self.LedCtrlChar( string[ limit( (((n-8)//16)*2) + 1, 0, len(string)-1 ) ], red, green, blue, 8-(n-8)%16 )
 				time.sleep(0.001 * waitms)
 		else:
 			for i in string:
 				for n in range(4):  # pseudo repetitions to compensate the timing a bit
 					self.LedCtrlChar(i, red, green, blue)
-					time.sleep(0.001 * waitms);
+					time.sleep(0.001 * waitms)
 
 
 	#-------------------------------------------------------------------------------------
@@ -1032,13 +1149,18 @@ class LaunchpadPro( LaunchpadBase ):
 		a = self.midi.ReadRaw()
 		if a:
 
+			# TODO:
+			# Pressing and not releasing a button will create hundreds of "pressure value" (208)
+			# events. Because we don't handle them here (yet), polling to slowly might create
+			# very long lags...
+
 			if a[0][0] == 144 or a[0][0] == 176:
 			
 				if mode.lower() != "pro":
 					x = (a[0][1] - 1) % 10
 				else:
 					x = a[0][1] % 10
-				y = ( 99 - a[0][1] ) / 10;
+				y = ( 99 - a[0][1] ) // 10;
 			
 				return [ x, y, a[0][2] ]
 			else:
@@ -1120,7 +1242,7 @@ class LaunchpadMk2( LaunchpadPro ):
 	#-------------------------------------------------------------------------------------
 	# Overrides "LaunchpadPro" method
 	def Open( self, number = 0, name = "Mk2" ):
-		return super( LaunchpadMk2, self ).Open( number = number, name = name );
+		return super( LaunchpadMk2, self ).Open( number = number, name = name )
 
 
 	#-------------------------------------------------------------------------------------
@@ -1130,7 +1252,7 @@ class LaunchpadMk2( LaunchpadPro ):
 	#-------------------------------------------------------------------------------------
 	# Overrides "LaunchpadPro" method
 	def Check( self, number = 0, name = "Mk2" ):
-		return super( LaunchpadMk2, self ).Check( number = number, name = name );
+		return super( LaunchpadMk2, self ).Check( number = number, name = name )
 
 
 	#-------------------------------------------------------------------------------------
@@ -1177,7 +1299,7 @@ class LaunchpadMk2( LaunchpadPro ):
 					y = 0
 				else:
 					x = ( a[0][1] - 1) % 10
-					y = ( 99 - a[0][1] ) / 10;
+					y = ( 99 - a[0][1] ) // 10;
 			
 				return [ x, y, a[0][2] ]
 			else:
@@ -1242,6 +1364,46 @@ class LaunchpadMk2( LaunchpadPro ):
 			self.midi.RawWrite( 144, number, colorcode )
 		else:
 			self.midi.RawWrite( 176, number, colorcode )
+
+
+	#-------------------------------------------------------------------------------------
+	#-- Same as LedCtrlRawByCode, but with a pulsing LED.
+	#-- Pulsing can be stoppped by another Note-On/Off or SysEx message.
+	#-------------------------------------------------------------------------------------
+	# Overrides "LaunchpadPro" method
+	def LedCtrlPulseByCode( self, number, colorcode = None ):
+
+		if number < 0 or number > 99:
+			return
+
+		# TODO: limit/check colorcode
+		if colorcode is None:
+			colorcode = LaunchpadPro.COLORS['white']
+
+		# for Pro: [ 0, 32, 41, 2, *16*, 40, number, colorcode ]
+		# Also notice the error in the Mk2 docs. "number" is actually the 2nd
+		# command, following an unused "0" (that's also missing in the Pro's command)
+		self.midi.RawWriteSysEx( [ 0, 32, 41, 2, 24, 40, 0, number, colorcode ] )
+
+
+	#-------------------------------------------------------------------------------------
+	#-- Same as LedCtrlPulseByCode, but with a dual color flashing LED.
+	#-- The first color is the one that is already enabled, the second one is the
+	#-- <colorcode> argument in this method.
+	#-- Flashing can be stoppped by another Note-On/Off or SysEx message.
+	#-------------------------------------------------------------------------------------
+	# Overrides "LaunchpadPro" method
+	def LedCtrlFlashByCode( self, number, colorcode = None ):
+
+		if number < 0 or number > 99:
+			return
+
+		# TODO: limit/check colorcode
+		if colorcode is None:
+			colorcode = LaunchpadPro.COLORS['white']
+
+		# for Pro: [ 0, 32, 41, 2, *16*, *35*, number, colorcode ] (also an error in the docs)
+		self.midi.RawWriteSysEx( [ 0, 32, 41, 2, 24, 35, 0, number, colorcode ] )
 
 
 	#-------------------------------------------------------------------------------------
@@ -1310,6 +1472,43 @@ class LaunchpadMk2( LaunchpadPro ):
 		
 		self.LedCtrlRawByCode( led, colorcode )
 
+
+	#-------------------------------------------------------------------------------------
+	#-- Pulses a grid LED by its coordinates <x>, <y> and its <colorcode>.
+	#-------------------------------------------------------------------------------------
+	# Overrides "LaunchpadPro" method
+	def LedCtrlPulseXYByCode( self, x, y, colorcode ):
+
+		if x < 0 or x > 8 or y < 0 or y > 8:
+			return
+
+		# top row (round buttons)
+		if y == 0:
+			led = 104 + x
+		else:
+			# swap y
+			led = 91-(10*y) + x
+		
+		self.LedCtrlPulseByCode( led, colorcode )
+
+
+	#-------------------------------------------------------------------------------------
+	#-- Flashes a grid LED by its coordinates <x>, <y> and its <colorcode>.
+	#-------------------------------------------------------------------------------------
+	# Overrides "LaunchpadPro" method
+	def LedCtrlFlashXYByCode( self, x, y, colorcode ):
+
+		if x < 0 or x > 8 or y < 0 or y > 8:
+			return
+
+		# top row (round buttons)
+		if y == 0:
+			led = 104 + x
+		else:
+			# swap y
+			led = 91-(10*y) + x
+		
+		self.LedCtrlFlashByCode( led, colorcode )
 
 
 ########################################################################################
@@ -1393,7 +1592,7 @@ class LaunchControlXL( LaunchpadBase ):
 		# By default, user template 0 is enabled
 		self.UserTemplate = template
 		
-		retval = super( LaunchControlXL, self ).Open( number = number, name = name );
+		retval = super( LaunchControlXL, self ).Open( number = number, name = name )
 		if retval == True:
 			self.TemplateSet( self.UserTemplate )
 
@@ -1612,7 +1811,7 @@ class LaunchKeyMini( LaunchpadBase ):
 	#-------------------------------------------------------------------------------------
 	# Overrides "LaunchpadBase" method
 	def Open( self, number = 0, name = "LaunchKey" ):
-		retval = super( LaunchKeyMini, self ).Open( number = number, name = name );
+		retval = super( LaunchKeyMini, self ).Open( number = number, name = name )
 		return retval
 
 
@@ -1713,7 +1912,7 @@ class Dicer( LaunchpadBase ):
 	#-------------------------------------------------------------------------------------
 	# Overrides "LaunchpadBase" method
 	def Open( self, number = 0, name = "Dicer" ):
-		retval = super( Dicer, self ).Open( number = number, name = name );
+		retval = super( Dicer, self ).Open( number = number, name = name )
 		return retval
 
 
@@ -1831,7 +2030,7 @@ class Dicer( LaunchpadBase ):
 			cmd = 154
 			
 		# determine the "page", "hot cue", "loop" or "auto loop"
-		page = number / 10
+		page = number // 10
 		if page > 2:
 			return
 
