@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 # Quick usage of "launchpad.py", LEDs and buttons.
 # Works with all Launchpads: Mk1, Mk2, S/Mini, Pro, XL and LaunchKey

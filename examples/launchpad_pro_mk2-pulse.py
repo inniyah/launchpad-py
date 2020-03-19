@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python3
 #
 # Stupid flashing/pulsing demo.
 # Works with Mk2 and Pro

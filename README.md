@@ -7,11 +7,11 @@ If you ever dreamed of using your Launchpad for completely other stuff than musi
 
 Compatible with most [tm] single board computers.
 
-Watch a 6s video [here][7].  
-Or take a look at [that one][8].  
+Watch a 6s video [here][7].
+Or take a look at [that one][8].
 What about the brand new Launchpad Pro support? [Right][9]!
 
-Hey - and the Mac? Yep, that finally works too. [Look][12] \o/  
+Hey - and the Mac? Yep, that finally works too. [Look][12] \o/
 
 Upcoming attraction: [Launch Control XL][15].
 
@@ -25,7 +25,7 @@ Did we mention [Python 3][18] yet?
 ---
 ## STATUS 2019/09/xx:
 
-What's hot, what's not?  
+What's hot, what's not?
 
 ### Devices
 
@@ -36,11 +36,11 @@ What's hot, what's not?
     Launchpad Mk2     - class "LaunchpadMk2()"    LEDs and buttons
 
     Launchpad Pro     - class "LaunchpadPro()"    LEDs and buttons (digitally only (yet))
-    
+
     Launch Control XL - class "LaunchControlXL()" LEDs, buttons and potentiometers
-    
+
     LaunchKey (Mini)  - class "LaunchKeyMini()"   Buttons, keys and potentiometers (sliders for big KBs), no LEDs
-    
+
     Dicer             - class "Dicer()"           LEDs and buttons
 
 
@@ -51,7 +51,7 @@ Now with Python 3 support \o/
 
 ### OS
 
-Now full functionality also on Windows 10 and macOS based systems.  
+Now full functionality also on Windows 10 and macOS based systems.
 Successfully tested with Ubuntu 18.04-LTS+. Requires compiling your own PyGame though (which is actually very easy; see below...).
 
 
@@ -133,7 +133,7 @@ Successfully tested with Ubuntu 18.04-LTS+. Requires compiling your own PyGame t
     - added LKM InputFlush() and InputChanged() for LaunchKey(Mini)
     - added LKM docs
     - added LKM to the hello.py test file
-    
+
 ### CHANGES 2017/04/30:
 
     - launchpad.py is now available via PyPI, the Python Package Index.
@@ -210,7 +210,7 @@ Successfully tested with Ubuntu 18.04-LTS+. Requires compiling your own PyGame t
         lp2.Open(1)
 
 ### CHANGES 2015/02/18:
-  
+
     - Added option to select a Launchpad if more than one is attached.
       Also supports search for a device string, e.g. "Mini".
     - Added optional parameters <number> and <name> to Open()
@@ -246,7 +246,7 @@ Successfully tested with Ubuntu 18.04-LTS+. Requires compiling your own PyGame t
 
 #### Via pip from PyPI
 
-Please notice that the PyPI version is not always up to date!  
+Please notice that the PyPI version is not always up to date!
 Simply execute
 
     pip install launchpad_py
@@ -255,9 +255,9 @@ or
 
     sudo pip install launchpad_py
 
-(in case you need superuser rights) to install it.  
- Notice that the required dependencies (see below) are not automatically resolved.  
- 
+(in case you need superuser rights) to install it.
+ Notice that the required dependencies (see below) are not automatically resolved.
+
 You need to install `python-rtmidi` separately:
 
     pip install python-rtmidi
@@ -266,7 +266,7 @@ or
 
     sudo pip install python-rtmidi
 
-Also make sure that you're using the right "pip", matching your Python 2 or 3 preference.  
+Also make sure that you're using the right "pip", matching your Python 2 or 3 preference.
 Check with
 
     pip --version
@@ -286,7 +286,7 @@ If you downloaded the Launchpad.py source package, simply execute the command
 
       python setup.py install
 
-from the base directory or 
+from the base directory or
 
       sudo python setup.py install
 
@@ -339,7 +339,7 @@ by executing
 
     ATTENTION Raspberry Pi Raspbian user. This is for you!
 
-Some Linux distributions come with their own PyGame package.  
+Some Linux distributions come with their own PyGame package.
 Check your manual :)
 
 With "apt", for example, you could either try
@@ -351,7 +351,7 @@ or
     apt-cache search pygame
     apt-cache search pygame | grep pygame
 
-Make sure to install the right PyGame version, matching your Python 2 or 3 prefewrence.  
+Make sure to install the right PyGame version, matching your Python 2 or 3 prefewrence.
 Sample output from a Raspbian Jesse:
 
     python-pygame - SDL bindings for games development in Python (Python 2)
@@ -373,7 +373,7 @@ copy the two files
       launchpad.py
       charset.py
 
-to your working directory.  
+to your working directory.
 Use those files as described above, but without the "_py":
 
       import launchpad
@@ -396,7 +396,7 @@ or
 #### Checks for an installed version first, loads local one as the last resort
 
       import sys
-      
+
       try:
         import launchpad_py as launchpad
       except ImportError:
@@ -408,7 +408,7 @@ or
 #### Checks for a local version first (file in same folder), uses the installed one secondary
 
       import sys
-      
+
       try:
         import launchpad as launchpad
       except ImportError:
@@ -425,9 +425,9 @@ or
 
 You are free to:
 
-Share — copy and redistribute the material in any medium or format  
+Share — copy and redistribute the material in any medium or format
 Adapt — remix, transform, and build upon the material for any purpose, even commercially.
-  
+
 The licensor cannot revoke these freedoms as long as you follow the license terms.
 
 
@@ -438,18 +438,18 @@ The licensor cannot revoke these freedoms as long as you follow the license term
   - [Pygame][3] v1.9.1, (v1.9.2), v1.9.3, v1.9.4-XX
 
 Some Pygame versions do not work on some OSes (e.g. v1.9.2 might cause trouble
-with Windows 7/10). I cannot tell you any more than just "try!".  
+with Windows 7/10). I cannot tell you any more than just "try!".
 The latest fixes (4/2017) were tested with v1.9.3 (via pip from Python 2.7.13)
 and Windows 10 (x64). That seems to work fine again...
-  
-As of 2/2018, launchpad.py comes with Python 3 support.  
-Tested, so far:  
+
+As of 2/2018, launchpad.py comes with Python 3 support.
+Tested, so far:
 
   - Windows 10, Python 3.6.4, PyGame 1.9.3 (via pip), MK2 Pad
   - macOS Sierra, Python 3.6 (Macports), PyGame 1.9.3 (via pip), Pro Pad
   - Raspbian Jessy, RPi3, Python 3.4.2, PyGame 1.9.2a0 (via apt), Mini Pad
 
-Python 3 might not (yet and out-of-the-box) work for:  
+Python 3 might not (yet and out-of-the-box) work for:
 
   - stock Ubuntu 16.04.3-LTS (requires building PyGame from sources)
   - stock Ubuntu 17.04       (same)
@@ -479,7 +479,7 @@ Supported and tested red/green LED Launchpad devices, here referred  to as "Clas
   - Launchpad Mini (Mk1)
 
 Supported and tested full RGB Launchpad devices:
-  
+
   - Launchpad Pro
   - Launchpad Mk2
 
@@ -522,7 +522,7 @@ name it once shipped the first red/green LED with!
 
  Find the complete compilation instructions [here][19].
 
- Download the PyGame source code.  
+ Download the PyGame source code.
  Notice that this will create a sub-folder named "pygame":
 
     git clone https://github.com/pygame/pygame
@@ -546,7 +546,7 @@ name it once shipped the first red/green LED with!
     PORTMIDI: found
     PORTTIME: found
     FREETYPE: not found
-    
+
     Warning, some of the pygame dependencies were not found. Pygame can still
     compile and install, but games that depend on those missing dependencies
     will not run. Would you like to continue the configuration? [Y/n]
@@ -568,10 +568,10 @@ name it once shipped the first red/green LED with!
 
 ### Compile via "configure" (old)
 
- Newer Python variants come with a fully functional setup.py (see above).  
+ Newer Python variants come with a fully functional setup.py (see above).
  I just leave the old compiling instructions here...
 
- Download the PyGame source code.  
+ Download the PyGame source code.
  Notice that this will create a sub-folder named "pygame":
 
     git clone https://github.com/pygame/pygame
@@ -613,65 +613,65 @@ name it once shipped the first red/green LED with!
 
  ...
 
- 
+
 ---
 ## Random Notes
 
 ### Button, value and potentiometer polling
 
  Until now (6/2017), Launchpad.py does not have an event system built in. You need to poll the buttons' or
- potentiometer's values manually.  
+ potentiometer's values manually.
  Notice that actually nothing will get lost, but every event you create will be buffered (until you run out
  or memory :). If you don't poll the buttons or potentiometers regulary, your might end up with thousands
- of old states and values, blocking the current input.  
+ of old states and values, blocking the current input.
  Especially rotating a potentiometer or pushing a slider, creates an event for each single value that
  was sampled. This can easily be hundreds of messages in a few seconds.
 
  So either poll regulary or use the ButtonFlush()/InputFlush() method to clear everything.
 
  Also notice that the buffer might be filled right after you started your application...
-  
+
 
 ### For Launchpad Mk1 users (the original "Classic" Launchpad):
 
       USE CLASS "Launchpad":
-      
+
         lp = launchpad.Launchpad()
 
 ### For Launchpad Pro users
 
       USE CLASS "LaunchpadPro":
-      
+
         lp = launchpad.LaunchpadPro()
-        
+
       As of 2016/01/24, the "Pro" is now automatically set to "Ableton Live mode",
       which is required for launchpad.py to work.
 
 ### For Launchpad Mk2 users
 
       USE CLASS "LaunchpadMk2":
-      
+
         lp = launchpad.LaunchpadMk2()
 
 ### For Launch Control XL users
 
       USE CLASS "LaunchControlXL":
-      
+
         lp = launchpad.LaunchControlXL()
 
 ### For LaunchKey (Mini) users
 
-Even it is named "Mini", it also supports most of the bigger keyboards' functionalities.  
+Even it is named "Mini", it also supports most of the bigger keyboards' functionalities.
 Notice that some of the button and key numbers collide and cannot be differed.
 
       USE CLASS "LaunchKeyMini":
-      
+
         lp = launchpad.LaunchKeyMini()
 
 ### For Dicer users
 
       USE CLASS "Dicer":
-      
+
         lp = launchpad.Dicer()
 
 The Dicer uses "page" mode by default. The three small buttons "cue", "loop" and "auto loop"
@@ -701,39 +701,39 @@ If that command can _not_ find "alsa.conf" (a common place is /usr/share/alsa/al
 probably don't have Alsa installed at all.
 
 In all other cases, you can create a symbolic link from /etc/alsa/alsa.conf to the real, existing file
-(assuming /usr/share/alsa/alsa.conf here).  
+(assuming /usr/share/alsa/alsa.conf here).
 Warning: Double check whether /etc/alsa/alsa.conf _really_ does not exist first!
 
     sudo mkdir /etc/alsa
     sudo ln -s /usr/share/alsa/alsa.conf /etc/alsa/alsa.conf
 
-After that, you still might experience that Launchpad.py cannot find any MIDI devices.  
+After that, you still might experience that Launchpad.py cannot find any MIDI devices.
 The output from "lp.ListAll()" does not return anything and executing the "hello.py" example just shows
 something like:
 
     Exception AttributeError: "'NoneType' object has no attribute 'quit'" in <bound method __Midi.__del__
     ... of <launchpad_py.launchpad.__Midi instance at 0x7f0860cb3128>> ignored
 
-In this case, the default sequencer entries might be missing in your alsa.conf.  
+In this case, the default sequencer entries might be missing in your alsa.conf.
 You might wish to add this to your alsa.conf:
 
     #
     #  Sequencer interface
     #
-    
+
     seq.default {
       type hw
       hint.description "Added by experts. Source: Internet \o/"
     }
-    
+
     seq.hw {
     type hw
     }
 
-Thanks to [MartinPaulEve][17] for pointing that out.  
+Thanks to [MartinPaulEve][17] for pointing that out.
 Please notice that this "fix" won't work on all systems. While it does, for example,
 work with Ubuntu 17.04, the same error usually just indicates that your system was not
-built with a PyGame compatible ALSA (PortMidi) version.  
+built with a PyGame compatible ALSA (PortMidi) version.
 There is no easy fix for this (unless you wish to spend a lot of time completely recompiling your system...)
 
 
@@ -741,33 +741,33 @@ There is no easy fix for this (unless you wish to spend a lot of time completely
 
 #### Mac Python and Pygame
 
-Good news, everybody. It now works with macOS Sierra \o/  
+Good news, everybody. It now works with macOS Sierra \o/
 Best part: It even works with the stock "Apple Python".
-      
+
 Pygame can be installed via "pip". Just enter "pip" on the console
 to see whether it is installed:
-      
+
         pip
-      
+
 If it isn't, you can install it with:
-      
+
         sudo easy_install pip
-        
+
 If pip is working, search for Pygame via pip (console command):
-      
+
         sudo pip search pygame
-      
+
 Somewhere in the list, you should see something like
-      
+
         Pygame (1.9.2b8)   - Python Game Development
-        
+
 Install that with:
-      
+
         sudo pip install pygame
 
 #### Hardware
 
-Notice that the original Launchpad Mk1 requires an USB driver. Thanks, [Stewart!][13].  
+Notice that the original Launchpad Mk1 requires an USB driver. Thanks, [Stewart!][13].
 Get it from [here][14] (Novation USB Driver-2.7.dmg).
 
 As it seems, all newer Launchpads work right out of the box, no driver required.
@@ -775,12 +775,12 @@ As it seems, all newer Launchpads work right out of the box, no driver required.
 ### For Raspberry Pi users
 
 Please notice that some the newer RGB LED Launchpads consume more current than a
-Raspberry Pi can deliver. If you turn on a lot of LEDs, the Launchpad will just reset and show the fireworks demo.  
+Raspberry Pi can deliver. If you turn on a lot of LEDs, the Launchpad will just reset and show the fireworks demo.
 At least for the Launchpad Pro, you could use an external power supply adapter. For the Mk2, you
 would need a an "USB-Y" cable, with the "power plug" connected to an external power supply (or other PC).
 
 As written somewhere above, at least for Raspbian (Jesse), you should install Raspbian's PyGame version
-via the package manager or apt. The PyPI version (installation via "pip") will not work due to some missing SDL components.  
+via the package manager or apt. The PyPI version (installation via "pip") will not work due to some missing SDL components.
 
 Btw, you can check your Raspbian version with the console command
 
@@ -829,11 +829,11 @@ turned out, that was not the reason it didn't work.
 
 It simply was a power issue.
 
-So, if your Launchpad Pro shows that firework demo, check your USB cable!  
+So, if your Launchpad Pro shows that firework demo, check your USB cable!
 Seriously. That thing draws a lot of current and most USB cables simply
 do not conform to the USB standard (or your USB port isn't, e.g. Raspberry Pi).
 
-On Linux, you can check that via the console command "dmesg".  
+On Linux, you can check that via the console command "dmesg".
 If the output contains hundreds of "urb status -32" errors, followed by
 
     ...
@@ -852,14 +852,14 @@ If the output contains hundreds of "urb status -32" errors, followed by
     [ 1415.446009] usb 1-1.5: SerialNumber: Launchpad Pro
     ...
 
-My USB cable "looked quite good" from the outside.  
+My USB cable "looked quite good" from the outside.
 With its ~5.5mm diameter, I assumed it had AWG 22 (~60mOhm/m) or better, but it in fact
 has ~drumroll~ AWG 28 (~240mOhm/m) and two thick plastic strings to fill the gaps.
 
 Well, we all know that companies try to save money wherever they can, but that's just
 fraud...
 
-Btw, the fireworks demo will play whenever the Launchpad cannot be enumerated (configured).  
+Btw, the fireworks demo will play whenever the Launchpad cannot be enumerated (configured).
 [...]
 
 ---
@@ -871,16 +871,16 @@ Btw, the fireworks demo will play whenever the Launchpad cannot be enumerated (c
     Close()
     Reset()
     ButtonFlush()
-    
+
     (*1*) Control XL only
-    
+
 
 ### Utility functions
 
     ListAll()
     EventRaw()
-    
-    
+
+
 ---
 ## Launchpad Mk1 "Classic" class methods overview (valid for green/red LED devices)
 
@@ -935,7 +935,7 @@ Btw, the fireworks demo will play whenever the Launchpad cannot be enumerated (c
 
 ### Color codes
 
-All RGB Launchpads have a 128 color palette built-in.  
+All RGB Launchpads have a 128 color palette built-in.
 Controlling LEDs with colors from the palette is about three times faster than
 using the, indeed much more comfortable, RGB notation.
 
@@ -1010,17 +1010,17 @@ Functions requiring a color code have a "...ByCode" naming style.
 
 ### Open( [number], [name], [template (1)] )
 
-    Opens the a Launchpad and initializes it.  
+    Opens the a Launchpad and initializes it.
     Please notice that some devices have up to six MIDI entries!.
-    
+
     (1) Notice that <template> is only valid for the Launch Control XL pad.
     A number of 1..8 selects and activates a user template (1 by default)
     or 9..16 a factory one.
     This corresponds to holding down one of the "Template buttons" and
     selecting the template number via the bottom button row.
-    
+
     A dump by ListAll(), with a "Pro", a Mk1 "Mini" and a "Mk2" might look like:
-    
+
         ('ALSA', 'Midi Through Port-0', 0, 1, 0)
         ('ALSA', 'Midi Through Port-0', 1, 0, 0)
         ('ALSA', 'Launchpad Pro MIDI 1', 0, 1, 1)
@@ -1035,9 +1035,9 @@ Functions requiring a color code have a "...ByCode" naming style.
         ('ALSA', 'Launchpad MK2 MIDI 1', 1, 0, 0)
         ('ALSA', 'Launch Control XL MIDI 1', 0, 1, 1)
         ('ALSA', 'Launch Control XL MIDI 1', 1, 0, 1)
-    
+
     You'll only need to count the entries if you have two or more identical Launchpads attached.
-    
+
       PARAMS: <number>   OPTIONAL, number of Launchpad to open.
                          1st device = 0, 2nd device = 1, ...
                          Defaults to 0, the 1st device, if not given.
@@ -1072,28 +1072,28 @@ Functions requiring a color code have a "...ByCode" naming style.
       EXAMPLES:
               # Open the first device attached:
               lp.Open()
-              
+
               # Open the 2nd Launchpad:
               lp.Open( 1 )
-              
+
               # Open the 3rd Launchpad Mini:
               lp.Open( 2, "Launchpad Mini")
-              
+
               # alternative:
               lp.Open( name = "Launchpad Mini", number = 0)
-              
+
               # open the 1st "Mk2"
               lp = launchpad.LaunchpadMk2()    # notice the "Mk2" class!
               lp.Open()                        # equals Open( 0, "Mk2" )
-              
+
               # open the 1st "Pro"
               lp = launchpad.LaunchpadPro()    # notice the "Pro" class!
               lp.Open()                        # equals Open( 0, "Pro" )
-              
+
               # open the 1st "XL" with user template 3
               lp = launchpad.LaunchControlXL( template = 3 )
               lp.Open()
-              
+
               # open the 1st "XL" with factory template 2
               lp = launchpad.LaunchControlXL( template = 10 )
               lp.Open()
@@ -1105,25 +1105,25 @@ Functions requiring a color code have a "...ByCode" naming style.
     Checks if a device is attached.
     Uses exactly the same notation as Open(), but only returns True or False,
     without opening anything.
-    
+
     Like Open(), this method uses different default names for the different classes:
       Launchpad()        -> "Launchpad"
       LaunchpadMk2()     -> "Mk2"
       LaunchpadPro()     -> "Pro"
       LaunchControlXL()  -> "Control XL"
       LaunchKeyMini()    -> "Launchkey"
-      
+
     Notice that it's absolutely safe to query for an "Pro" or "Mk2" from all classes, e.g.:
-    
+
       lp = lauchpad.Launchpad()        # Launchpad "Mk1" or "Classic" class
       if lp.Check( 0, "Pro" ):         # check for "Pro"
         lp = launchpad.LaunchpadPro()  # "reload" the new class for the "Pro"
         lp.Open()                      # equals lp.Open( 0, "Pro" )
-    
-    Search patterns are case insensitive.  
-    
+
+    Search patterns are case insensitive.
+
       PARAMS: see Open()
-      
+
       RETURN: True     device exists
               False    device does not exist
 
@@ -1165,7 +1165,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
       PARAMS:
       RETURN: []  an empty list if nothing happened or this MIDI message:
-              [[[ <cmd>, <data1>, <data2>, <res> ], <timestamp> ]] 
+              [[[ <cmd>, <data1>, <data2>, <res> ], <timestamp> ]]
 
 
 ---
@@ -1175,7 +1175,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 ### Reset()
 
     Resets the Launchpad and (quickly) turns off all LEDs.
-    Notice that only the Mk1 performs a 
+    Notice that only the Mk1 performs a
 
       PARAMS:
       RETURN:
@@ -1248,7 +1248,7 @@ Functions requiring a color code have a "...ByCode" naming style.
                 time.wait(1000)
 
                 lp.LedCtrlRawRapidHome()     # home position
-                
+
                 rgy = [ 0x30, 0x03, 0x33 ]   # LEDs 1..3; GRY
                 lp.LedCtrlRawRapid( rgy )
 
@@ -1266,7 +1266,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
     Turns on all LEDs.
 
-      PARAMS: 
+      PARAMS:
       RETURN:
 
 
@@ -1275,10 +1275,10 @@ Functions requiring a color code have a "...ByCode" naming style.
     Sends character <char> in colors <red/green> (0..3 each) and
     lateral offset <offsx> (-8..8) to the Launchpad.
     <offsy> does not have yet any function.
-    
+
     It is highly recommended to use <offsx> and <offsy> as
     named parameters, for compatible code with the RGB Launchpads, e.g.:
-    
+
       lp.LedCtrlChar( 'a', 3, 2, offsx = xvar )
 
       PARAMS: <char>   one field string to display; e.g.: 'A'
@@ -1302,14 +1302,14 @@ Functions requiring a color code have a "...ByCode" naming style.
     <red/green> specify the color and intensity (0..3 each).
     <direction> determines the direction of scrolling.
     Dirty hack: <waitms>, by default 150, delays the scrolling speed.
-    
+
     WARNING:
     Too short times will overflow the Launchpad's buffer and mess up
     the screen.
-    
+
     For future compatibility, it is highly recommended to use
     <direction> and <waitms> as a named arguments, e.g.:
-    
+
       lp.LedCtrlString( "Hello", 3,1, direction = -1, waitms = 100 )
 
 
@@ -1381,7 +1381,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
       EXAMPLES:
               colorRed = LP.LedGetColorByName( "red" )
-    
+
     Supported, so far:
       off, black, white, red, green
 
@@ -1390,18 +1390,18 @@ Functions requiring a color code have a "...ByCode" naming style.
 
     +++ NOTICE:
     +++   It is recommended to always call this with a "blue" parameter.
-    +++   The compatibility mode will be removed soon. 
-    
+    +++   The compatibility mode will be removed soon.
+
     Controls an LED via its number and red, green and blue intensity values.
-    
+
     This method uses system-exclusive MIDI messages, which require 10 bytes to
     be sent for each message. For a faster version, hence less comfortable version,
     see LedCtrlRawByCode() below (though even sending 10 bytes is pretty fast on the Pro).
-    
+
     If <blue> is omitted, this method runs in "Mk1" compatibility mode, which only
     had red/green LEDs and intensities ranging from 0..3. In that mode, the input
     arguments are multiplied by 21, to map 0..3 to 0..63.
-    
+
     Notice that the "Pro" and "Mk2" have different LED number layouts.
     Please see tables, somewhere below.
 
@@ -1430,7 +1430,7 @@ Functions requiring a color code have a "...ByCode" naming style.
     If <colorcode> is omitted, 'white' is used.
     Pulsing can be turned off by simply sending another on/off command.
     The pulsing rate can be (roughly) set by LedCtrlBpm()
-    
+
     Notice that there is no RGB control variant of this method (not supported by Launchpad).
 
       PARAMS: <number>     number of the LED to control
@@ -1442,7 +1442,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
     Pulses an LED via its x/y coordinates and color codes.
     An additional <mode> parameter determines the origin of the x-axis.
-    
+
     For "Pro" only:
       By default, if <mode> is omitted, the origin of the x axis is the left side
       of the 8x8 matrix, like in the "Mk1" mode (those devices had no round buttons
@@ -1465,7 +1465,7 @@ Functions requiring a color code have a "...ByCode" naming style.
     activation of the flashing is then done by this method.
     Flashing can be turned off by simply sending another on/off/color command.
     The flashing rate can be (roughly) set by LedCtrlBpm()
-    
+
     Notice that there is no RGB control variant of this method (not supported by Launchpad).
 
       PARAMS: <number>     number of the LED to control
@@ -1484,7 +1484,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
     Flashes an LED via its x/y coordinates and color codes.
     An additional <mode> parameter determines the origin of the x-axis.
-    
+
     For "Pro" only:
       By default, if <mode> is omitted, the origin of the x axis is the left side
       of the 8x8 matrix, like in the "Mk1" mode (those devices had no round buttons
@@ -1506,7 +1506,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
     Sets the LED's pulsing or flashing frequency in beats per minute (bpm).
     By default, the Launchpads are set to 120 bpm.
-    
+
     Notice that this comes with several restrictions (yet):
 
      - This function blocks for 67.5 / bpm seconds, e.g.:
@@ -1517,7 +1517,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
       - Due to the shortest time step of 1ms and the way the Launchpads handle the timing settings,
         the bpm values are restricted to:
-        
+
           10 ms - 250 bpm     23 ms - 108 bpm     36 ms -  69 bpm     49 ms -  51 bpm
           11 ms - 227 bpm     24 ms - 104 bpm     37 ms -  67 bpm     50 ms -  50 bpm
           12 ms - 208 bpm     25 ms - 100 bpm     38 ms -  65 bpm     51 ms -  49 bpm
@@ -1534,7 +1534,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 
       PARAMS: <bpm>     beats per minute, 40..240
       RETURN:
-      
+
       EXAMPLES:
               LP.LedCtrlBpm( 100 )      # set LED flashing/pulsing to ~100 beats per minute
 
@@ -1544,17 +1544,17 @@ Functions requiring a color code have a "...ByCode" naming style.
 
     +++ NOTICE:
     +++   It is recommended to always call this with a "blue" parameter.
-    +++   The compatibility mode will be removed soon. 
-    
+    +++   The compatibility mode will be removed soon.
+
     Controls an LED via its x/y coordinates and red, green or blue intensity values.
     An additional <mode> parameter determines the origin of the x-axis.
-    
+
     If <blue> is omitted, this method operates in "Mk1" compatibility mode.
     The Mk1 Launchpad only had 2 bit intensity values (0..3). In compatibility
     mode, these values are now multiplied by 21, to extend the range to 0..63.
     That way, old, existing code, written for the classic Launchpads does not
     need to be changed.
-    
+
     For "Pro" only:
       By default, if <mode> is omitted, the origin of the x axis is the left side
       of the 8x8 matrix, like in the "Mk1" mode (those devices had no round buttons
@@ -1566,7 +1566,7 @@ Functions requiring a color code have a "...ByCode" naming style.
     This method uses system-exclusive MIDI messages, which require 10 bytes to
     be sent for each message. For a faster version, hence less comfortable version,
     see LedCtrlXYByCode() below.
-    
+
       PARAMS: <x>      x coordinate of the LED to control
               <y>      y coordinate of the LED to control
               <red>    red   LED intensity 0..63 (or 0..3 in "Mk1" mode)
@@ -1579,10 +1579,10 @@ Functions requiring a color code have a "...ByCode" naming style.
 ### LedCtrlXYByCode( x, y, colorcode, [mode] )
 
     Controls an LED via its x/y coordinates and a color from the color palette.
-    
+
     Except for the color code, this function does the same as LedCtrlXY() does,
     but about 3 times faster.
-    
+
       PARAMS: <x>          x coordinate of the LED to control
               <y>          y coordinate of the LED to control
               <colorcode>  a number from 0..127
@@ -1593,16 +1593,16 @@ Functions requiring a color code have a "...ByCode" naming style.
 ### LedCtrlXYByRGB( x, y, colorlist, [mode] )
 
     Controls an LED via its x/y coordinates and a list of colors in RGB format.
-    
+
     This function does the same as LedCtrlXY() does, except that the color information
     is now passed in as list [R,G,B].
-    
+
       PARAMS: <x>          x coordinate of the LED to control
               <y>          y coordinate of the LED to control
               <colorlist>  a list with [ R, G, B ] color codes; each from 0..63
               <mode>       OPTIONAL: "pro" selects new x/y origin >>> PRO ONLY <<<
       RETURN:
-      
+
       EXAMPLES:
               LP.LedCtrlXYByRGB( 3, 7, [63, 42, 0] )
 
@@ -1612,16 +1612,16 @@ Functions requiring a color code have a "...ByCode" naming style.
     +++ NOTICE:
     +++   It is recommended to always call this with a "blue" parameter.
     +++   The compatibility mode will be removed soon.
-    
+
     Sends character <char> in colors <red/green/blue> (0..63 each) and
     lateral offset <offsx> (-8..8) to the Launchpad.
     <offsy> does not have yet any function.
-    
+
     It is highly recommended to use <offsx> and <offsy> as
     named parameters, for compatible code with the RGB Launchpads, e.g.:
-    
+
       lp.LedCtrlChar( 'a', 3, 2, offsx = xvar )
-      
+
     If <blue> is ommited, this methods runs in "Mk1" compatibility
     mode and multiplies the <red> and <green> intensity values with 21, to
     adapt the old 0..3 range to the new 0..63 one of the "Pro" mode.
@@ -1649,7 +1649,7 @@ Functions requiring a color code have a "...ByCode" naming style.
     +++   It is recommended to always call this with a "blue" parameter.
     +++   The compatibility mode will be removed soon (and the output on
     +++   Mk2 and Pro pads might be messed up).
-    
+
     Notice that the Launchpad Pro has string scrolling capabilities built in, but
     this function provides the old, Mk1 compatible functionality. Advantages
     are custom fonts and symbols (in the future).
@@ -1658,13 +1658,13 @@ Functions requiring a color code have a "...ByCode" naming style.
     <red/green/blue> specify the color and intensity (0..63 each).
     <direction> determines the direction of scrolling.
     Dirty hack: <waitms>, by default 150, delays the scrolling speed.
-    
+
     If <blue> is omitted, "Mk1" compatibility mode is turned on and the old
     0..3 <red/green> intensity values are strechted to 0..63.
-    
+
     For future compatibility, it is highly recommended to use
     <direction> and <waitms> as a named arguments, e.g.:
-    
+
       lp.LedCtrlString( "Hello", 3,1, direction = -1, waitms = 100 )
 
 
@@ -1691,7 +1691,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 ### ButtonStateRaw()
 
     Returns the state of the buttons in RAW mode.
-    
+
     Notice that this is not directly compatible with the "Mk1" ButtonStateRaw()
     method, which returns [ <button>, <True/False> ].
 
@@ -1706,7 +1706,7 @@ Functions requiring a color code have a "...ByCode" naming style.
 ### ButtonStateXY( [mode] )
 
     Returns the state of the buttons in X/Y mode.
-    
+
     Notice that this is not directly compatible with the "Mk1" ButtonStateRaw()
     method, which returns [ <button>, <True/False> ].
 
@@ -1730,17 +1730,17 @@ Functions requiring a color code have a "...ByCode" naming style.
 ### TemplateSet( template )
 
     Activates one of the user or factory templates, as specified by <template>.
-    
+
       PARAMS: 1.. 8    activate user template    1..8
               9..16    activate factory template 1..8
-      
+
       RETURN:
 
 
 ### Reset()
 
     Resets the Launchpad and (quickly) turns off all LEDs.
-    Notice that only the Mk1 performs a 
+    Notice that only the Mk1 performs a
 
       PARAMS:
       RETURN:
@@ -1810,7 +1810,7 @@ Functions requiring a color code have a "...ByCode" naming style.
     Notice that the Control XL buttons do not support an analog velocity value.
     For compatibility, either "0" or "127" are returned in the third list field, corresponding
     to "False" (0) or "True" (127).
-  
+
       PARAMS:
       RETURN: [ ]                               An empty list if no event occured, otherwise either
               [ <button>, <True/False>, 0/127 ] the button number, True or False and the velocity
@@ -1818,9 +1818,9 @@ Functions requiring a color code have a "...ByCode" naming style.
               <button> and <potnum> are the RAW button or potentiometer numbers, the second field
               either determines the state of the button ("True" if pressed, "False" if released) or
               returns the value of the potentiometer that was changed.
-              
+
       EXAMPLES:
-      
+
         xlEvent = lp.InputStateRaw()
         if xlEvent != []:
           if xlEvent[1] is True or xlEvent[1] is False:
@@ -1871,9 +1871,9 @@ Functions requiring a color code have a "...ByCode" naming style.
               <button>, <key> and <potnum> are the RAW button, key or potentiometer numbers, the second
               field either determines the state of the button or key ("True" if pressed, "False" if released)
               or returns the value of the potentiometer that was changed.
-              
+
       EXAMPLES:
-      
+
         lkEvent = lp.InputStateRaw()
         if lkEvent != []:
           if lkEvent[1] is True or lkEvent[1] is False:
@@ -1899,21 +1899,21 @@ Functions requiring a color code have a "...ByCode" naming style.
 ### ModeSet( device, mode )
 
     Enables on of the seven modes (or button and LED "pages") of the Dicer:
-    
+
       0  cue
       1  cue + shift
       2  loop
       3  loop + shift
-      4  auto loop 
+      4  auto loop
       5  auto loop + shift
       6  one page mode
-      
+
     See ButtonStateRaw(), LedCtrlRaw() or the Dicer's button and LED table at the end of this
     document to see how mode 0..5 work.
-    
+
     If the "one page mode" is enabled, the mode buttons themselves do not select a bank anymore,
     but return a value instead.
-    
+
       PARAMS: <device>     0 = master, 1 = slave
               <mode>       0..6 as specifies above
       RETURN:
@@ -1924,21 +1924,21 @@ Functions requiring a color code have a "...ByCode" naming style.
     Returns the state of the buttons in (an already nicely mapped :) RAW mode.
     The returned numbers of the buttons equal the labels on the Dicer's buttons, with
     the following extension (also see the LED/button mapping ASCII drawing somewhere below):
-    
+
     The three mode buttons "cue", "loop" and "auto loop" act as a modifier and add the following
     numbers to the button value.
     For "shift" operation, continue to hold down one of the three mode buttons while pressing a number.
-    
+
       Master, "cue":        01 ..  05  +shift:  06 ..  10
       Master, "loop":       11 ..  15  +shift:  16 ..  20
       Master, "auto loop":  21 ..  25  +shift:  26 ..  30
-    
+
       Slave,  "cue":       101 .. 105  +shift: 106 .. 110
       Slave,  "loop:       111 .. 115  +shift: 116 .. 120
       Slave,  "auto loop": 121 .. 115  +shift: 126 .. 130
-      
+
     In "one page mode", the mode buttons do not have a special function but return a value upon being pressed:
-    
+
       Master, "cue":         6
       Master, "loop":        7
       Master, "auto loop":   8
@@ -1946,14 +1946,14 @@ Functions requiring a color code have a "...ByCode" naming style.
       Slave,  "cue":       106
       Slave,  "loop:       107
       Slave,  "auto loop": 108
-    
+
     The mode can either be set by pushing/holding down the corresponding buttons
     or via ModeSet( <device>, <mode> ).
-    
+
       PARAMS:
       RETURN: [ ]                                 An empty list if no event occured, otherwise
               [ <button>, <True/False>, <0/127> ] the button number, True or False and the velocity (only 0 or 127).
-              
+
 
 
 ### LedSetLightshow( device, enable )
@@ -1975,13 +1975,13 @@ Functions requiring a color code have a "...ByCode" naming style.
       Master, "cue":        01 ..  05  +shift:  06 ..  10
       Master, "loop":       11 ..  15  +shift:  16 ..  20
       Master, "auto loop":  21 ..  25  +shift:  26 ..  30
-    
+
       Slave,  "cue":       101 .. 105  +shift: 106 .. 110
       Slave,  "loop:       111 .. 115  +shift: 116 .. 120
       Slave,  "auto loop": 121 .. 115  +shift: 126 .. 130
 
     In "one page mode", the mode LEDs can be controlled via:
-    
+
       Master, "cue":         6
       Master, "loop":        7
       Master, "auto loop":   8
@@ -1992,9 +1992,9 @@ Functions requiring a color code have a "...ByCode" naming style.
 
     The mode can either be set by pushing/holding down the corresponding buttons
     or via ModeSet( <device>, <mode> ).
-    
+
     The color shade can be controlled with <hue>, avalue from 0..7:
-    
+
       0  red
       1  red-orange
       2  orange
@@ -2005,8 +2005,8 @@ Functions requiring a color code have a "...ByCode" naming style.
       7  green
 
     I just leave that as it is. Complaints can be sent to Novation :'-)
-        
-    
+
+
       PARAMS: <number>     number of the LED (see Dicer mapping table somewhere below)
               <hue>        0..7 hue value (see text above)
               <intensity>  LED intensity value 0..15
@@ -2028,9 +2028,9 @@ Functions requiring a color code have a "...ByCode" naming style.
 
 ### RAW mode
 
-    +---+---+---+---+---+---+---+---+ 
+    +---+---+---+---+---+---+---+---+
     |200|201|202|203|204|205|206|207| < or 0..7 with LedCtrlAutomap()
-    +---+---+---+---+---+---+---+---+   
+    +---+---+---+---+---+---+---+---+
 
     +---+---+---+---+---+---+---+---+  +---+
     |  0|...|   |   |   |   |   |  7|  |  8|
@@ -2052,10 +2052,10 @@ Functions requiring a color code have a "...ByCode" naming style.
 
 ### X/Y mode
 
-      0   1   2   3   4   5   6   7      8   
-    +---+---+---+---+---+---+---+---+ 
+      0   1   2   3   4   5   6   7      8
+    +---+---+---+---+---+---+---+---+
     |0/0|1/0|   |   |   |   |   |   |         0
-    +---+---+---+---+---+---+---+---+ 
+    +---+---+---+---+---+---+---+---+
 
     +---+---+---+---+---+---+---+---+  +---+
     |0/1|   |   |   |   |   |   |   |  |   |  1
@@ -2081,10 +2081,10 @@ Functions requiring a color code have a "...ByCode" naming style.
 
 ### RAW mode
 
-    +---+---+---+---+---+---+---+---+ 
+    +---+---+---+---+---+---+---+---+
     |104|   |106|   |   |   |   |111|
-    +---+---+---+---+---+---+---+---+ 
-    
+    +---+---+---+---+---+---+---+---+
+
     +---+---+---+---+---+---+---+---+  +---+
     | 81|   |   |   |   |   |   |   |  | 89|
     +---+---+---+---+---+---+---+---+  +---+
@@ -2102,15 +2102,15 @@ Functions requiring a color code have a "...ByCode" naming style.
     +---+---+---+---+---+---+---+---+  +---+
     | 11|   |   |   |   |   |   |   |  | 19|
     +---+---+---+---+---+---+---+---+  +---+
-    
+
 
 ### X/Y mode
 
-      0   1   2   3   4   5   6   7      8   
-    +---+---+---+---+---+---+---+---+ 
+      0   1   2   3   4   5   6   7      8
+    +---+---+---+---+---+---+---+---+
     |0/0|   |2/0|   |   |   |   |   |         0
-    +---+---+---+---+---+---+---+---+ 
-     
+    +---+---+---+---+---+---+---+---+
+
     +---+---+---+---+---+---+---+---+  +---+
     |0/1|   |   |   |   |   |   |   |  |   |  1
     +---+---+---+---+---+---+---+---+  +---+
@@ -2128,17 +2128,17 @@ Functions requiring a color code have a "...ByCode" naming style.
     +---+---+---+---+---+---+---+---+  +---+
     |   |   |   |   |   |   |   |   |  |8/8|  8
     +---+---+---+---+---+---+---+---+  +---+
-    
+
 
 ---
 ## Button and LED codes, Launchpad "Pro" (RGB LEDs)
 
 ### RAW mode
 
-           +---+---+---+---+---+---+---+---+ 
+           +---+---+---+---+---+---+---+---+
            | 91|   |   |   |   |   |   | 98|
-           +---+---+---+---+---+---+---+---+ 
-    
+           +---+---+---+---+---+---+---+---+
+
     +---+  +---+---+---+---+---+---+---+---+  +---+
     | 80|  | 81|   |   |   |   |   |   |   |  | 89|
     +---+  +---+---+---+---+---+---+---+---+  +---+
@@ -2156,18 +2156,18 @@ Functions requiring a color code have a "...ByCode" naming style.
     +---+  +---+---+---+---+---+---+---+---+  +---+
     | 10|  |   |   |   |   |   |   |   |   |  | 19|
     +---+  +---+---+---+---+---+---+---+---+  +---+
-    
-           +---+---+---+---+---+---+---+---+ 
+
+           +---+---+---+---+---+---+---+---+
            |  1|  2|   |   |   |   |   |  8|
-           +---+---+---+---+---+---+---+---+ 
+           +---+---+---+---+---+---+---+---+
 
 ### X/Y "Classic" mode
 
-      9      0   1   2   3   4   5   6   7      8   
-           +---+---+---+---+---+---+---+---+ 
+      9      0   1   2   3   4   5   6   7      8
+           +---+---+---+---+---+---+---+---+
            |0/0|   |2/0|   |   |   |   |   |         0
-           +---+---+---+---+---+---+---+---+ 
-            
+           +---+---+---+---+---+---+---+---+
+
     +---+  +---+---+---+---+---+---+---+---+  +---+
     |   |  |0/1|   |   |   |   |   |   |   |  |   |  1
     +---+  +---+---+---+---+---+---+---+---+  +---+
@@ -2185,18 +2185,18 @@ Functions requiring a color code have a "...ByCode" naming style.
     +---+  +---+---+---+---+---+---+---+---+  +---+
     |9/8|  |   |   |   |   |   |   |   |   |  |8/8|  8
     +---+  +---+---+---+---+---+---+---+---+  +---+
-          
-           +---+---+---+---+---+---+---+---+ 
+
+           +---+---+---+---+---+---+---+---+
            |   |1/9|   |   |   |   |   |   |         9
-           +---+---+---+---+---+---+---+---+ 
+           +---+---+---+---+---+---+---+---+
 
 ### X/Y "Pro" mode
 
       0      1   2   3   4   5   6   7   8      9
-           +---+---+---+---+---+---+---+---+ 
+           +---+---+---+---+---+---+---+---+
            |1/0|   |3/0|   |   |   |   |   |         0
-           +---+---+---+---+---+---+---+---+ 
-            
+           +---+---+---+---+---+---+---+---+
+
     +---+  +---+---+---+---+---+---+---+---+  +---+
     |   |  |1/1|   |   |   |   |   |   |   |  |   |  1
     +---+  +---+---+---+---+---+---+---+---+  +---+
@@ -2214,10 +2214,10 @@ Functions requiring a color code have a "...ByCode" naming style.
     +---+  +---+---+---+---+---+---+---+---+  +---+
     |0/8|  |   |   |   |   |   |   |   |   |  |9/8|  8
     +---+  +---+---+---+---+---+---+---+---+  +---+
-          
-           +---+---+---+---+---+---+---+---+ 
+
+           +---+---+---+---+---+---+---+---+
            |   |2/9|   |   |   |   |   |   |         9
-           +---+---+---+---+---+---+---+---+ 
+           +---+---+---+---+---+---+---+---+
 
 
 
@@ -2230,28 +2230,28 @@ Notice that the two "template" buttons on the top right cannot be controlled (NO
 ### RAW mode
 
         +---+---+---+---+---+---+---+---+  +---++---+
-        | 13| 29| 45| 61| 77| 93|109|125|  |NOP||NOP| 
+        | 13| 29| 45| 61| 77| 93|109|125|  |NOP||NOP|
         +---+---+---+---+---+---+---+---+  +---++---+
-        | 14| 30| 46| 62| 78| 94|110|126|  |104||105| 
+        | 14| 30| 46| 62| 78| 94|110|126|  |104||105|
         +---+---+---+---+---+---+---+---+  +---++---+
-        | 15| 31| 47| 63| 79| 95|111|127|  |106||107| 
+        | 15| 31| 47| 63| 79| 95|111|127|  |106||107|
         +---+---+---+---+---+---+---+---+  +---++---+
-        
+
         +---+---+---+---+---+---+---+---+     +---+
-        |   |   |   |   |   |   |   |   |     |105| 
+        |   |   |   |   |   |   |   |   |     |105|
         |   |   |   |   |   |   |   |   |     +---+
-        |   |   |   |   |   |   |   |   |     |106| 
+        |   |   |   |   |   |   |   |   |     |106|
         | 77| 78| 79| 80| 81| 82| 83| 84|     +---+
-        |   |   |   |   |   |   |   |   |     |107| 
+        |   |   |   |   |   |   |   |   |     |107|
         |   |   |   |   |   |   |   |   |     +---+
-        |   |   |   |   |   |   |   |   |     |108| 
+        |   |   |   |   |   |   |   |   |     |108|
         +---+---+---+---+---+---+---+---+     +---+
-        
-        +---+---+---+---+---+---+---+---+  
-        | 41| 42| 43| 44| 57| 58| 59| 60| 
-        +---+---+---+---+---+---+---+---+  
-        | 73| 74| 75| 76| 89| 90| 91| 92| 
-        +---+---+---+---+---+---+---+---+  
+
+        +---+---+---+---+---+---+---+---+
+        | 41| 42| 43| 44| 57| 58| 59| 60|
+        +---+---+---+---+---+---+---+---+
+        | 73| 74| 75| 76| 89| 90| 91| 92|
+        +---+---+---+---+---+---+---+---+
 
 
 ### X/Y mode
@@ -2259,7 +2259,7 @@ Notice that the two "template" buttons on the top right cannot be controlled (NO
 *PRELIMINARY*
 
           0   1   2   3   4   5   6   7      8    9
-         
+
         +---+---+---+---+---+---+---+---+  +---++---+
      0  |0/1|   |   |   |   |   |   |   |  |NOP||NOP|  0
         +---+---+---+---+---+---+---+---+  +---++---+
@@ -2277,12 +2277,12 @@ Notice that the two "template" buttons on the top right cannot be controlled (NO
         |   |   |   |   |   |   |   |   |     +---+
         |   |   |   |   |   |   |   |   |     |   |    6
         +---+---+---+---+---+---+---+---+     +---+
-        
-        +---+---+---+---+---+---+---+---+  
+
+        +---+---+---+---+---+---+---+---+
      4  |   |   |   |   |   |   |   |   |              4(!)
-        +---+---+---+---+---+---+---+---+  
+        +---+---+---+---+---+---+---+---+
      5  |   |   |   |3/4|   |   |   |   |              5(!)
-        +---+---+---+---+---+---+---+---+  
+        +---+---+---+---+---+---+---+---+
 
 
 
@@ -2290,15 +2290,15 @@ Notice that the two "template" buttons on the top right cannot be controlled (NO
 ## Buttons, LED and potentiometer codes, LaunchKey Mini
 
 Notice that the two "Octave" and the "INCONTROL" buttons cannot be controlled (NOP).
- 
+
                    +---+---+---+---+---+---+---+---+
                    | 21| 22|...|   |   |   |   | 28|
      +---+---+---+ +---+---+---+---+---+---+---+---+ +---+  +---+
-     |106|107|NOP| | 40| 41| 42| 43| 48| 49| 50| 51| |108|  |104| 
+     |106|107|NOP| | 40| 41| 42| 43| 48| 49| 50| 51| |108|  |104|
      +---+---+---+ +---+---+---+---+---+---+---+---+ +---+  +---+
-     |NOP|NOP|     | 36| 37| 38| 39| 44| 45| 46| 47| |109|  |105| 
+     |NOP|NOP|     | 36| 37| 38| 39| 44| 45| 46| 47| |109|  |105|
      +---+---+     +---+---+---+---+---+---+---+---+ +---+  +---+
-     
+
      +--+-+-+-+--+--+-+-+-+-+-+--+--+-+-+-+--+--+-+-+-+-+-+--+---+
      |  | | | |  |  | | | | | |  |  | | | |  |  | | | | | |  |   |
      |  |4| |5|  |  | | | | | |  |  |6| | |  |  | | | | |7|  |   |
@@ -2315,7 +2315,7 @@ Notice that the two "Octave" and the "INCONTROL" buttons cannot be controlled (N
 
 ### Standard Mode
 
-Button numbers equal the labels on the buttons, plus a number, 
+Button numbers equal the labels on the buttons, plus a number,
 as specified by the mode buttons.
 
 For "shift-lock" operation, continue to hold down one of the
@@ -2336,7 +2336,7 @@ three mode buttons while pressing a number button.
      |  #  |  |     |  |  #  |        |  #  |  |     |  |  #  |
      |    #|  |    #|  |     |        |#   #|  |#   #|  |#    |
      +-----+  +-----+  +-----+        +-----+  +-----+  +-----+
-      
+
      +-----+            +---+          +----+           +-----+
      |#   #|            | +0|          |  +0|           |    #|
      |     |            +---+          +----+           |     |
@@ -2370,7 +2370,7 @@ The mode keys return:
      |  #  |  |     |  |  #  |        |  #  |  |     |  |  #  |
      |    #|  |    #|  |     |        |#   #|  |#   #|  |#    |
      +-----+  +-----+  +-----+        +-----+  +-----+  +-----+
-      
+
      +-----+            +---+          +----+           +-----+
      |#   #|            | 6 |          | 108|           |    #|
      |     |            +---+          +----+           |     |
@@ -2387,8 +2387,8 @@ The mode keys return:
 
 
 ---
-Have fun  
-FMMT666(ASkr)  
+Have fun
+FMMT666(ASkr)
 
 
 
