@@ -18,15 +18,13 @@ except ImportError:
 		sys.exit("ERROR: loading launchpad.py failed")
 
 import random
-import pygame
-from pygame import time
-
+import time
 
 def CountdownPrint( n ):
 	for i in range(n,0,-1):
 		sys.stdout.write( str(i) + " ")
 		sys.stdout.flush()
-		time.wait(500)
+		time.sleep(0.001 * 500)
 
 
 def main():
@@ -34,7 +32,6 @@ def main():
 	# some basic info
 	print( "\nRunning..." )
 	print( " - Python " + str( sys.version.split()[0] ) )
-	print( " - PyGame " + str( pygame.ver ) )
 
 	# create an instance
 	lp = launchpad.LaunchpadMk2();
@@ -61,7 +58,7 @@ def main():
 	print( " - Testing LedAllOn()" )
 	for i in [ 5, 21, 79, 3]:
 		lp.LedAllOn( i )
-		time.wait(500)
+		time.sleep(0.001 * 500)
 	lp.LedAllOn( 0 )
 
 	# LedCtrlXY() test
@@ -74,7 +71,7 @@ def main():
 		for y in range( i + 1, 8 - i + 1 ):
 			for x in range( i, 8 - i ):
 				lp.LedCtrlXY( x, y, colors[i][0], colors[i][1], colors[i][2])
-		time.wait(500)
+		time.sleep(0.001 * 500)
 
 	# turn all LEDs off
 	print( " - Testing Reset()" )
@@ -84,7 +81,7 @@ def main():
 	print( " - More to come, goodbye...\n" )
 	lp.Close()
 
-	
+
 if __name__ == '__main__':
 	main()
 

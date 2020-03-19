@@ -9,7 +9,6 @@
 
 import sys
 
-
 try:
 	import launchpad_py as launchpad
 except ImportError:
@@ -18,11 +17,8 @@ except ImportError:
 	except ImportError:
 		sys.exit("ERROR: loading launchpad.py failed")
 
-# import pygame
 import random
-from pygame import time
-
-
+import time
 
 limit  = lambda n, minVal, maxVal: max( min( maxVal, n ), minVal )
 limit1 = lambda n: limit( n, 0.0, 1.0 )
@@ -114,7 +110,7 @@ class Fire:
 		Args:  
 			`xyv` (tuple): a tuple containing (x, y, v); x/y postition (int) and value (float)  
 			`xyv` (list):  a list of tuples  
-		
+
 		Returns:  
 			`value` (int): Number of values written
 		"""
@@ -142,10 +138,10 @@ class Fire:
 	#-- 
 	#-------------------------------------------------------------------------------------
 	def MatrixGetRow( self, y ):
- 		# TODO: return None instead of list w/ zeros?		
+ 		# TODO: return None instead of list w/ zeros?
 		if y < 0 or y > self.sizeY - 1:
 			return [ 0.0 for i  in range(self.sizeX) ]
-		
+
 		return self.matrix[y]
 
 	#-------------------------------------------------------------------------------------
@@ -156,7 +152,7 @@ class Fire:
 			return 0.0
 		if y < 0 or y > self.sizeY - 1:
 			return 0.0
-		
+
 		return self.matrix[y][x]
 
 	#-------------------------------------------------------------------------------------
@@ -188,7 +184,7 @@ class Fire:
 		valRFac  = 0.0
 
 		valNew   = valYFac * ( valOwn + valBelow + valRFac ) / 2.0 
-		
+
 		self.MatrixSet( ( x, y, valNew ) )
 
 
@@ -287,7 +283,7 @@ class LpDisplay():
 	""" Well, well, well, well, well...
 
 	"""
-	
+
 	#-------------------------------------------------------------------------------------
 	#-- 
 	#-------------------------------------------------------------------------------------
@@ -312,7 +308,7 @@ class LpDisplay():
 
 		Args:  
 			`value`: float from 0.0 to 1.0  
-		
+
 		Returns:  
 			`(R,G,B)`: a tuple with color information
 		"""

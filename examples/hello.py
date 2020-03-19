@@ -19,8 +19,7 @@ except ImportError:
 		sys.exit("error loading launchpad.py")
 
 import random
-from pygame import time
-
+import time
 
 def main():
 
@@ -35,7 +34,7 @@ def main():
 		if lp.Open(0,"pro"):
 			print("Launchpad Pro")
 			mode = "Pro"
-			
+
 	elif lp.Check( 0, "mk2" ):
 		lp = launchpad.LaunchpadMk2()
 		if lp.Open( 0, "mk2" ):
@@ -47,7 +46,7 @@ def main():
 		if lp.Open( 0, "control xl" ):
 			print("Launch Control XL")
 			mode = "XL"
-			
+
 	elif lp.Check( 0, "launchkey" ):
 		lp = launchpad.LaunchKeyMini()
 		if lp.Open( 0, "launchkey" ):
@@ -59,7 +58,7 @@ def main():
 		if lp.Open( 0, "dicer" ):
 			print("Dicer")
 			mode = "Dcr"
-			
+
 	else:
 		if lp.Open():
 			print("Launchpad Mk1/S/Mini")
@@ -99,7 +98,7 @@ def main():
 		butHit = 30
 	else:
 		butHit = 10
-		
+
 	while 1:
 		if mode == "Mk1" or mode == "XL":
 			lp.LedCtrlRaw( random.randint(0,127), random.randint(0,3), random.randint(0,3) )
@@ -107,9 +106,9 @@ def main():
 			lp.LedCtrlRaw( random.randint(0,130), random.randint(0,7), random.randint(0,15) )
 		elif mode != "LKM":
 			lp.LedCtrlRaw( random.randint(0,127), random.randint(0,63), random.randint(0,63), random.randint(0,63) )
-		
-		time.wait( 5 )
-		
+
+		time.sleep(0.001 * 5)
+
 		if mode == "XL" or mode == "LKM":
 			but = lp.InputStateRaw()
 		else:
@@ -121,13 +120,10 @@ def main():
 				break
 			print( butHit, " event: ", but )
 
-	# now quit...
-	print("Quitting might raise a 'Bad Pointer' error (~almost~ nothing to worry about...:).\n\n")
-
 	lp.Reset() # turn all LEDs off
-	lp.Close() # close the Launchpad (will quit with an error due to a PyGame bug)
+	lp.Close() # close the Launchpad
 
-	
+
 if __name__ == '__main__':
 	main()
 
